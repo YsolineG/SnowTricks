@@ -40,7 +40,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private $username;
 
     /**
      * @ORM\Column(type="boolean")
@@ -66,12 +66,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getName(): ?string
     {
-        return $this->name;
+        return $this->username;
     }
 
-    public function setName(string $name): self
+    public function setName(string $username): self
     {
-        $this->name = $name;
+        $this->username = $username;
 
         return $this;
     }
