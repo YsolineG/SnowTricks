@@ -14,6 +14,7 @@
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
         <a href="{{ path('app_logout') }}">Deconnexion</a>
         <a href="{{ path('profile') }}">Profil</a>
+        <a href="{{ path('add_figure') }}">Ajouter une figure</a>
     {% else %}
         <a href="{{ path('login') }}">Connexion</a>
         <a href="{{ path('app_register') }}">Inscription</a>
