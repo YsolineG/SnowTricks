@@ -24,11 +24,6 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/register', name: 'app_register')]
-//    /**
-//     * Register page
-//     *
-//     * @Route("/register", name="app_register")
-//     */
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasherInterface): Response
     {
         $user = new User();
