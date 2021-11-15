@@ -22,6 +22,8 @@ class AddFigureController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($figure);
             $entityManager->flush();
+            $request->getSession()->getFlashBag()->add('success', 'La figure a bien été ajoutée');
+            return $this->redirectToRoute('home');
         }
 
         return $this->render('add_figure/index.html.twig', [

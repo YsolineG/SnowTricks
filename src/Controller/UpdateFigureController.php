@@ -19,6 +19,8 @@ class UpdateFigureController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
+            $request->getSession()->getFlashBag()->add('success', 'La figure a bien été modifiée');
+            return $this->redirectToRoute('home');
         }
 
         return $this->render('update_figure/index.html.twig', [

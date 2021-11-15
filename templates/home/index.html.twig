@@ -21,6 +21,11 @@
     {% endif %}
 
     <h2>Tricks</h2>
+
+    {% for flashMessage in app.session.flashBag.get('success') %}
+        {{ flashMessage }}
+    {% endfor %}
+
     {% for figure in figures %}
         <h3><a href="{{ path('get_figure', {id: figure.id}) }}">{{ figure.name }}</a></h3>
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
