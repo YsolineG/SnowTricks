@@ -12,17 +12,17 @@
     <h1>Modifier</h1>
 
     {{ form_start(figureForm) }}
-    {{ form_row(figureForm.name, {
-        label: "Nom"
-    }) }}
-    {{ form_row(figureForm.description, {
-        label: "Description"
-    }) }}
-    {{ form_row(figureForm.figureGroup, {
-        label: "Groupe du tricks"
-    }) }}
+        {{ form_row(figureForm.name, {
+            label: "Nom"
+        }) }}
+        {{ form_row(figureForm.description, {
+            label: "Description"
+        }) }}
+        {{ form_row(figureForm.figureGroup, {
+            label: "Groupe du tricks"
+        }) }}
 
-    <button type="submit" class="btn">Modifier</button>
+        <button type="submit" class="btn">Modifier</button>
     {{ form_end(figureForm) }}
 
     <a href="{{ path('home') }}">Retour</a>
