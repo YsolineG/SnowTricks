@@ -19,5 +19,13 @@
         <a href="{{ path('login') }}">Connexion</a>
         <a href="{{ path('app_register') }}">Inscription</a>
     {% endif %}
+
+    <h2>Tricks</h2>
+    {% for figure in figures %}
+        <a href="{{ path('get_figure', {id: figure.id}) }}">{{ figure.name }}</a>
+        <p>{{ figure.name }}</p>
+        <p>{{ figure.description }}</p>
+        <p>{{ figure.figureGroup }}</p>
+    {% endfor %}
 </div>
 {% endblock %}
