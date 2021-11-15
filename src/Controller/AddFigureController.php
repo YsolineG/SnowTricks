@@ -28,4 +28,17 @@ class AddFigureController extends AbstractController
             'figureForm' => $form->createView(),
         ]);
     }
+
+    /**
+     *  @Route("/delete/{id}", name="delete")
+     */
+    public function delete(int $id): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $figure = $entityManager->getRepository(Figure::class)->find($id);
+        $entityManager->remove($figure);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('home');
+    }
 }
