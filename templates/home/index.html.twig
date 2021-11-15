@@ -23,7 +23,9 @@
     <h2>Tricks</h2>
     {% for figure in figures %}
         <h3><a href="{{ path('get_figure', {id: figure.id}) }}">{{ figure.name }}</a></h3>
-        <a href="{{ path('delete', {id: figure.id}) }}">Supprimer</a>
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <a href="{{ path('delete', {id: figure.id}) }}">Supprimer</a>
+        {% endif %}
         <p>{{ figure.description }}</p>
         <p>{{ figure.figureGroup }}</p>
     {% endfor %}
