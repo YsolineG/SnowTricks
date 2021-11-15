@@ -11,5 +11,18 @@
 <div class="example-wrapper">
     <h1>Ajouter une figure</h1>
 
+    {{ form_start(figureForm) }}
+        {{ form_row(figureForm.name, {
+            label: "Nom"
+        }) }}
+        {{ form_row(figureForm.description, {
+            label: "Description"
+        }) }}
+        {{ form_row(figureForm.figureGroup, {
+            label: "Groupe du tricks"
+        }) }}
+
+        <button type="submit" class="btn">Ajouter</button>
+    {{ form_end(figureForm) }}
 </div>
 {% endblock %}
