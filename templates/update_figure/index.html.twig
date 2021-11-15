@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>Modifier</h1>
+
+    {{ form_start(figureForm) }}
+    {{ form_row(figureForm.name, {
+        label: "Nom"
+    }) }}
+    {{ form_row(figureForm.description, {
+        label: "Description"
+    }) }}
+    {{ form_row(figureForm.figureGroup, {
+        label: "Groupe du tricks"
+    }) }}
+
+    <button type="submit" class="btn">Modifier</button>
+    {{ form_end(figureForm) }}
+</div>
+{% endblock %}
