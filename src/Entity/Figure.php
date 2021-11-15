@@ -4,9 +4,12 @@ namespace App\Entity;
 
 use App\Repository\FigureRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=FigureRepository::class)
+ * @UniqueEntity(fields={"name"}, message="Cette figure existe déjà")
  */
 class Figure
 {
@@ -19,6 +22,7 @@ class Figure
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
+     * @Assert\NotBlank()
      */
     private $name;
 
