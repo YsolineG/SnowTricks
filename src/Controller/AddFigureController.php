@@ -16,6 +16,13 @@ class AddFigureController extends AbstractController
     {
         $figure = new Figure();
         $form = $this->createForm(FigureFormType::class, $figure);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($figure);
+            $entityManager->flush();
+        }
 
         return $this->render('add_figure/index.html.twig', [
             'figureForm' => $form->createView(),
