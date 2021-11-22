@@ -23,6 +23,6 @@ class ProfileController extends AbstractController
 
         // Call whatever methods you've added to your User class
         // For example, if you added a getFirstName() method, you can use that.
-        return new Response('Well hi there '.$user->getName());
+        return new Response('Well hi there '.$user->getUsername());
     }
 }
