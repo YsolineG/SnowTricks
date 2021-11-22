@@ -45,7 +45,18 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('username', TextType::class)
+            ->add('username', TextType::class, [
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Please enter a username',
+                    ]),
+                    new Length([
+                        'min' => 2,
+                        'minMessage' => 'Your username should be at least {{ limit }} characters',
+                        'max' => 255,
+                    ]),
+                ]
+            ])
         ;
     }
 
