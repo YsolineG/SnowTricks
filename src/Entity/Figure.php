@@ -24,12 +24,12 @@ class Figure
      * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\NotBlank()
      */
-    private $name;
+    private ?string $name;
 
     /**
      * @ORM\Column(type="text")
      */
-    private $description;
+    private ?string $description;
 
     /**
      * @ORM\Column(type="string", length=255)
