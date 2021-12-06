@@ -55,7 +55,7 @@ class AddFigureController extends AbstractController
     /**
      *  @Route("/delete/{id}", name="delete")
      */
-    public function delete(int $id): Response
+    public function delete(int $id, Request $request): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
         $figure = $entityManager->getRepository(Figure::class)->find($id);
@@ -70,6 +70,7 @@ class AddFigureController extends AbstractController
         }
         $entityManager->remove($figure);
         $entityManager->flush();
+        $request->getSession()->getFlashBag()->add('success', 'La figure a bien été supprimée');
 
         return $this->redirectToRoute('home');
     }
