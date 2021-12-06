@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Figure{% endblock %}
+{% block title %}{{ figure.name }}{% endblock %}
 
 {% block body %}
 <style>
@@ -13,5 +13,10 @@
 
     <p>{{ figure.description }}</p>
     <p>{{ figure.figureGroup }}</p>
+    {% for photo in figure.photo %}
+        <div>
+            <img src="{{ asset('/uploads/' ~ photo.name) }}" alt="Photo" width="150">
+        </div>
+    {% endfor %}
 </div>
 {% endblock %}

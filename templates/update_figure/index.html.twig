@@ -21,10 +21,24 @@
         {{ form_row(figureForm.figureGroup, {
             label: "Groupe du tricks"
         }) }}
+        {{ form_row(figureForm.photos, {
+            label: "Photo"
+        }) }}
+
+        {% for photo in figure.photo %}
+            <div>
+                <img src="{{ asset('/uploads/' ~ photo.name) }}" alt="Photo" width="150">
+                <a href="{{ path('delete_photo', {id: photo.id}) }}">Supprimer</a>
+            </div>
+        {% endfor %}
 
         <button type="submit" class="btn">Modifier</button>
     {{ form_end(figureForm) }}
 
     <a href="{{ path('home') }}">Retour</a>
 </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/photos.js') }}"></script>
 {% endblock %}

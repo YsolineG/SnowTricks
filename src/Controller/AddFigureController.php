@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Figure;
+use App\Entity\Photos;
 use App\Form\FigureFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,6 +20,26 @@ class AddFigureController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // On récupère les photos transmises
+            $photos = $form->get('photos')->getData();
+
+            // On boucle sur les photos
+            foreach ($photos as $photo) {
+                // On génère un nouveau nom de fichier
+                $file = md5(uniqid()) . '.' . $photo->guessExtension();
+
+                // On copie le fichier dans le dossier uploads
+                $photo->move(
+                    $this->getParameter('photo_directory'),
+                    $file
+                );
+
+                // On stocke la photo dans la bdd (son nom)
+                $pht = new Photos();
+                $pht->setName($file);
+                $figure->addPhoto($pht);
+            }
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($figure);
             $entityManager->flush();
@@ -38,6 +59,15 @@ class AddFigureController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
         $figure = $entityManager->getRepository(Figure::class)->find($id);
+        $photos = $figure->getPhoto();
+        if($photos){
+            foreach ($photos as $photo){
+                $name = $this->getParameter('photo_directory') . '/' . $photo->getName();
+                if(file_exists($name)) {
+                    unlink($name);
+                }
+            }
+        }
         $entityManager->remove($figure);
         $entityManager->flush();
 
