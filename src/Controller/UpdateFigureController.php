@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Figure;
+use App\Entity\Photos;
 use App\Form\FigureFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,6 +20,26 @@ class UpdateFigureController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+            // On récupère les photos transmises
+            $photos = $form->get('photos')->getData();
+
+            // On boucle sur les photos
+            foreach ($photos as $photo) {
+                // On génère un nouveau nom de fichier
+                $file = md5(uniqid()) . '.' . $photo->guessExtension();
+
+                // On copie le fichier dans le dossier uploads
+                $photo->move(
+                    $this->getParameter('photo_directory'),
+                    $file
+                );
+
+                // On stocke la photo dans la bdd (son nom)
+                $pht = new Photos();
+                $pht->setName($file);
+                $figure->addPhoto($pht);
+            }
+
             $this->getDoctrine()->getManager()->flush();
             $request->getSession()->getFlashBag()->add('success', 'La figure a bien été modifiée');
             return $this->redirectToRoute('home');
@@ -25,6 +47,31 @@ class UpdateFigureController extends AbstractController
 
         return $this->render('update_figure/index.html.twig', [
             'figureForm' => $form->createView(),
+            'figure' => $figure
         ]);
+    }
+
+    #[Route('/delete/photo/{id}', name: 'delete_photo', methods: 'DELETE')]
+    public function deletePhoto(Photos $photo, Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+
+        // On vérifie si le token est valide
+        if($this->isCsrfTokenValid('delete'.$photo->getId(), $data['_token'])) {
+            // Onrécupère le nom de l'image
+            $name = $photo->getName();
+            // On supprime le fichier
+            unlink($this->getParameter('photo_directory') . '/' . $name);
+
+            // On supprime l'entrée de la bdd
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($photo);
+            $entityManager->flush();
+
+            // On répond en json
+            return new JsonResponse(['success' => 1]);
+        } else {
+            return new JsonResponse(['error' => 'Token invalide'], 400);
+        }
     }
 }
