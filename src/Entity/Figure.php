@@ -39,7 +39,7 @@ class Figure
     private ?string $figureGroup;
 
     /**
-     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="figure", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="figure", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $videos;
 
@@ -48,9 +48,15 @@ class Figure
      */
     private $photo;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="figure")
+     */
+    private $comments;
+
     public function __construct()
     {
         $this->photo = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -104,6 +110,7 @@ class Figure
 
     public function addVideo(Video $video): self
     {
+//        dump($this->videos);die;
         if (!$this->videos->contains($video)) {
             $this->videos[] = $video;
             $video->setFigure($this);
@@ -146,6 +153,36 @@ class Figure
     {
         if ($this->photo->removeElement($photo)) {
             $photo->removeFigure($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setFigure($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getFigure() === $this) {
+                $comment->setFigure(null);
+            }
         }
 
         return $this;
