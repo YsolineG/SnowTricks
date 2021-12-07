@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\Figure;
+use App\Entity\User;
 use App\Form\CommentFormType;
 use App\Repository\CommentRepository;
 use App\Repository\FigureRepository;
@@ -11,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class GetFigureController extends AbstractController
 {
@@ -27,9 +29,11 @@ class GetFigureController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $comment->setCreatedAt(new \DateTimeImmutable());
+            /** @var User $user */
+            $user = $this->getUser();
+            $comment->setUser($user);
             $comment->setFigure($figure);
-
-
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($comment);

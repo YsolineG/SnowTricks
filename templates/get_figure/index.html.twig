@@ -35,7 +35,7 @@
 
         <h2>Liste des commentaires</h2>
         {% for comment in figure.comments %}
-            <p>Publié par {{ comment.user.username }}</p>
+            <p>Publié par {{ comment.user.username }} le {{ comment.createdAt|date("d/m/Y H:i") }}</p>
             <p>{{ comment.content }}</p>
         {% endfor %}
     </div>
