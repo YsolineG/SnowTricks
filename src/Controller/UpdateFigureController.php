@@ -41,7 +41,14 @@ class UpdateFigureController extends AbstractController
                 $figure->addPhoto($pht);
             }
 
-            // $videosUrl = $form->get('videos')->getData();
+            $videosUrl = $form->get('videos')->getData();
+
+            foreach ($videosUrl as $url) {
+                $videoEntity = new Video();
+                $url = str_replace('watch?v=', 'embed/', $url);
+                $videoEntity->setUrl($url);
+                $figure->addVideo($videoEntity);
+            }
 
             $this->getDoctrine()->getManager()->flush();
             $request->getSession()->getFlashBag()->add('success', 'La figure a bien été modifiée');
