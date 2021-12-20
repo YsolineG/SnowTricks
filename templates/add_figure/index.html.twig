@@ -25,9 +25,27 @@
             label: "Photo"
         }) }}
 
+        {{ form_label(figureForm.videos) }}
+        {{ form_errors(figureForm.videos) }}
+
+        <ul id="list-video">
+            {% for videoField in figureForm.videos %}
+                <li>
+                    {{ form_errors(videoField) }}
+                    {{ form_widget(videoField) }}
+                </li>
+            {% endfor %}
+        </ul>
+        <button type="button" id="button-add-video" class="btn" data-template="{{ form_widget(figureForm.videos.vars.prototype)|e }}">Ajouter une vidéo</button>
+
         <button type="submit" class="btn">Ajouter</button>
     {{ form_end(figureForm) }}
 
     <a href="{{ path('home') }}">Retour</a>
 </div>
 {% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/videos.js') }}"></script>
+{% endblock %}
+

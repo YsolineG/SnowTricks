@@ -57,6 +57,7 @@ class Figure
     {
         $this->photo = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->videos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -110,7 +111,6 @@ class Figure
 
     public function addVideo(Video $video): self
     {
-//        dump($this->videos);die;
         if (!$this->videos->contains($video)) {
             $this->videos[] = $video;
             $video->setFigure($this);

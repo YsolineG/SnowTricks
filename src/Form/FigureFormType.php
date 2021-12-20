@@ -4,7 +4,9 @@ namespace App\Form;
 
 use App\Entity\Figure;
 //use Doctrine\DBAL\Types\TextType;
+use App\Entity\Video;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -22,6 +24,12 @@ class FigureFormType extends AbstractType
             ->add('figureGroup', TextType::class)
             ->add('photos', FileType::class, [
                 'multiple' => true,
+                'mapped' => false,
+            ])
+            ->add('videos', CollectionType::class, [
+                'entry_type' => UrlType::class,
+                'allow_add' => true,
+                'prototype' => true,
                 'mapped' => false,
             ])
         ;

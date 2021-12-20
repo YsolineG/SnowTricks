@@ -10,7 +10,6 @@
 
 <div class="example-wrapper">
     <h1>{{ figure.name }}</h1>
-
     <p>{{ figure.description }}</p>
     <p>{{ figure.figureGroup }}</p>
     {% for photo in figure.photo %}
@@ -18,7 +17,11 @@
             <img src="{{ asset('/uploads/' ~ photo.name) }}" alt="Photo" width="150">
         </div>
     {% endfor %}
-{#    <iframe width="560" height="315" src="https://www.youtube.com/embed/YvD-BWfXAUk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>#}
+    {% for video in figure.videos %}
+        <div>
+            <iframe width="560" height="315" src="{{ video.url }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    {% endfor %}
 </div>
     <div class="example-wrapper">
         {% for flashMessage in app.session.flashBag.get('success') %}

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Figure;
 use App\Entity\Photos;
+use App\Entity\Video;
 use App\Form\FigureFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,9 +36,18 @@ class AddFigureController extends AbstractController
                 );
 
                 // On stocke la photo dans la bdd (son nom)
-                $pht = new Photos();
-                $pht->setName($file);
-                $figure->addPhoto($pht);
+                $photoEntity = new Photos();
+                $photoEntity->setName($file);
+                $figure->addPhoto($photoEntity);
+            }
+
+            $videosUrl = $form->get('videos')->getData();
+
+            foreach ($videosUrl as $url){
+                $videoEntity = new Video();
+                $url = str_replace('watch?v=', 'embed/', $url);
+                $videoEntity->setUrl($url);
+                $figure->addVideo($videoEntity);
             }
 
             $entityManager = $this->getDoctrine()->getManager();
