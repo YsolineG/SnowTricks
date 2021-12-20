@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Figure;
 use App\Entity\Photos;
+use App\Entity\Video;
 use App\Form\FigureFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -40,6 +41,8 @@ class UpdateFigureController extends AbstractController
                 $figure->addPhoto($pht);
             }
 
+            // $videosUrl = $form->get('videos')->getData();
+
             $this->getDoctrine()->getManager()->flush();
             $request->getSession()->getFlashBag()->add('success', 'La figure a bien été modifiée');
             return $this->redirectToRoute('home');
@@ -73,5 +76,22 @@ class UpdateFigureController extends AbstractController
         } else {
             return new JsonResponse(['error' => 'Token invalide'], 400);
         }
+    }
+
+    #[Route('/delete/video/{id}', name: 'delete_video', methods: 'DELETE')]
+    public function deleteVideo(Video $video, Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+        // On vérifie si le token est valide
+
+        if($this->isCsrfTokenValid('delete'.$video->getId(), $data['_token'])) {
+            $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($video);
+        $entityManager->flush();
+
+        return new JsonResponse(['success' => 1]);
+        } else {
+            return new JsonResponse(['error' => 'Token invalide'], 400);
+        } 
     }
 }

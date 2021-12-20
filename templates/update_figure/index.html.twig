@@ -33,6 +33,13 @@
             </div>
         {% endfor %}
 
+        {% for video in figure.videos %}
+            <div>
+                <iframe width="560" height="315" src="{{ video.url }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <a href="{{ path('delete_video', {id: video.id}) }}" data-delete data-token="{{ csrf_token('delete' ~ video.id) }}">Supprimer</a>
+            </div>
+        {% endfor %}
+
         <button type="submit" class="btn">Modifier</button>
     {{ form_end(figureForm) }}
 
@@ -42,4 +49,5 @@
 
 {% block javascripts %}
     <script src="{{ asset('js/photos.js') }}"></script>
+    <script src="{{ asset('js/deleteVideos.js') }}"></script>
 {% endblock %}
