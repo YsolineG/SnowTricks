@@ -42,8 +42,11 @@
 
         <h2>Liste des commentaires</h2>
         {% for comment in figure.comments %}
+            <img src="{{ asset('/uploads/user/' ~ comment.user.photo) }}" alt="Photo" width="50">
             <p>Publié par {{ comment.user.username }} le {{ comment.createdAt|date("d/m/Y H:i") }}</p>
             <p>{{ comment.content }}</p>
         {% endfor %}
+        
+        <a href="{{ path('home') }}">Retour</a>
     </div>
 {% endblock %}
