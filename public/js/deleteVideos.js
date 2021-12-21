@@ -1,4 +1,4 @@
-window.onload = () => {
+document.addEventListener("DOMContentLoaded", function () {
   let links = document.querySelectorAll("[data-delete]");
 
   for (link of links) {
@@ -26,4 +26,4 @@ window.onload = () => {
       }
     });
   }
-};
+});
