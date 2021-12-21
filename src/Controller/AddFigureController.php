@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Figure;
 use App\Entity\Photos;
 use App\Entity\Video;
+use App\Entity\User;
 use App\Form\FigureFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -49,6 +50,11 @@ class AddFigureController extends AbstractController
                 $videoEntity->setUrl($url);
                 $figure->addVideo($videoEntity);
             }
+
+            // Ajouter le user_id
+            /** @var User $user */
+            $user = $this->getUser();
+            $figure->setUser($user);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($figure);

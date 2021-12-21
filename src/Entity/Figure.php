@@ -49,9 +49,15 @@ class Figure
     private $photo;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="figure")
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="figure", cascade={"persist", "remove"})
      */
     private $comments;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="figures")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
 
     public function __construct()
     {
@@ -184,6 +190,18 @@ class Figure
                 $comment->setFigure(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
