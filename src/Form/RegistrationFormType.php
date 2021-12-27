@@ -13,6 +13,7 @@ use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class RegistrationFormType extends AbstractType
 {
@@ -56,6 +57,9 @@ class RegistrationFormType extends AbstractType
                         'max' => 255,
                     ]),
                 ]
+            ])
+            ->add('photo', FileType::class, [
+                'mapped' => false
             ])
         ;
     }
