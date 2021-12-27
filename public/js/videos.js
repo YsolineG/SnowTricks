@@ -1,12 +1,12 @@
 document.addEventListener("DOMContentLoaded", function () {
-  var buttonAddVideo = document.getElementById("button-add-video");
-  var index = 0;
-  var template = buttonAddVideo.getAttribute("data-template");
+  const buttonAddVideo = document.getElementById("button-add-video");
+  let index = 0;
+  const template = buttonAddVideo.getAttribute("data-template");
   buttonAddVideo.addEventListener("click", function () {
-    template = template.replace(/__name__/g, index);
-    var ul = document.querySelector("#list-video");
-    var li = document.createElement("li");
-    li.innerHTML = template;
+    const input = template.replace(/__name__/g, index.toString(10));
+    const ul = document.querySelector("#list-video");
+    const li = document.createElement("li");
+    li.innerHTML = input;
     ul.appendChild(li);
     index++;
   });
