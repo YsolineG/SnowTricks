@@ -17,55 +17,62 @@ class AddFigureController extends AbstractController
     #[Route('/add/figure', name: 'add_figure')]
     public function index(Request $request): Response
     {
-        $figure = new Figure();
-        $form = $this->createForm(FigureFormType::class, $figure);
-        $form->handleRequest($request);
+        $user = $this->getUser();
+        if($user) {
+            $figure = new Figure();
+            $form = $this->createForm(FigureFormType::class, $figure);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            // On récupère les photos transmises
-            $photos = $form->get('photos')->getData();
+            if ($form->isSubmitted() && $form->isValid()) {
+                $figure->setCreatedAt(new \DateTimeImmutable());
+                // On récupère les photos transmises
+                $photos = $form->get('photos')->getData();
 
-            // On boucle sur les photos
-            foreach ($photos as $photo) {
-                // On génère un nouveau nom de fichier
-                $file = md5(uniqid()) . '.' . $photo->guessExtension();
+                // On boucle sur les photos
+                foreach ($photos as $photo) {
+                    // On génère un nouveau nom de fichier
+                    $file = md5(uniqid()) . '.' . $photo->guessExtension();
 
-                // On copie le fichier dans le dossier uploads
-                $photo->move(
-                    $this->getParameter('photo_directory'),
-                    $file
-                );
+                    // On copie le fichier dans le dossier uploads
+                    $photo->move(
+                        $this->getParameter('photo_directory'),
+                        $file
+                    );
 
-                // On stocke la photo dans la bdd (son nom)
-                $photoEntity = new Photos();
-                $photoEntity->setName($file);
-                $figure->addPhoto($photoEntity);
+                    // On stocke la photo dans la bdd (son nom)
+                    $photoEntity = new Photos();
+                    $photoEntity->setName($file);
+                    $figure->addPhoto($photoEntity);
+                }
+
+                $videosUrl = $form->get('videos')->getData();
+
+                foreach ($videosUrl as $url) {
+                    $videoEntity = new Video();
+                    $url = str_replace('watch?v=', 'embed/', $url);
+                    $videoEntity->setUrl($url);
+                    $figure->addVideo($videoEntity);
+                }
+
+                // Ajouter le user_id
+                /** @var User $user */
+                $user = $this->getUser();
+                $figure->setUser($user);
+
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($figure);
+                $entityManager->flush();
+                $request->getSession()->getFlashBag()->add('success', 'La figure a bien été ajoutée');
+                return $this->redirectToRoute('home');
             }
 
-            $videosUrl = $form->get('videos')->getData();
-
-            foreach ($videosUrl as $url){
-                $videoEntity = new Video();
-                $url = str_replace('watch?v=', 'embed/', $url);
-                $videoEntity->setUrl($url);
-                $figure->addVideo($videoEntity);
-            }
-
-            // Ajouter le user_id
-            /** @var User $user */
-            $user = $this->getUser();
-            $figure->setUser($user);
-
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($figure);
-            $entityManager->flush();
-            $request->getSession()->getFlashBag()->add('success', 'La figure a bien été ajoutée');
-            return $this->redirectToRoute('home');
+            return $this->render('add_figure/index.html.twig', [
+                'figureForm' => $form->createView(),
+            ]);
+        } else {
+            return new Response("Vous n'avez pas accès à cette page", 400);
         }
 
-        return $this->render('add_figure/index.html.twig', [
-            'figureForm' => $form->createView(),
-        ]);
     }
 
     /**
@@ -76,6 +83,7 @@ class AddFigureController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $figure = $entityManager->getRepository(Figure::class)->find($id);
         $photos = $figure->getPhoto();
+        $videos = $figure->getVideos();
         if($photos){
             foreach ($photos as $photo){
                 $name = $this->getParameter('photo_directory') . '/' . $photo->getName();
