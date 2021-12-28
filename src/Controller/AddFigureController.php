@@ -80,22 +80,28 @@ class AddFigureController extends AbstractController
      */
     public function delete(int $id, Request $request): Response
     {
+
         $entityManager = $this->getDoctrine()->getManager();
         $figure = $entityManager->getRepository(Figure::class)->find($id);
-        $photos = $figure->getPhoto();
-        $videos = $figure->getVideos();
-        if($photos){
-            foreach ($photos as $photo){
-                $name = $this->getParameter('photo_directory') . '/' . $photo->getName();
-                if(file_exists($name)) {
-                    unlink($name);
+        $user = $this->getUser();
+        $userFigure = $figure->getUser();
+        if($user === $userFigure) {
+            $photos = $figure->getPhoto();
+            if ($photos) {
+                foreach ($photos as $photo) {
+                    $name = $this->getParameter('photo_directory') . '/' . $photo->getName();
+                    if (file_exists($name)) {
+                        unlink($name);
+                    }
                 }
             }
-        }
-        $entityManager->remove($figure);
-        $entityManager->flush();
-        $request->getSession()->getFlashBag()->add('success', 'La figure a bien été supprimée');
+            $entityManager->remove($figure);
+            $entityManager->flush();
+            $request->getSession()->getFlashBag()->add('success', 'La figure a bien été supprimée');
 
-        return $this->redirectToRoute('home');
+            return $this->redirectToRoute('home');
+        } else {
+            return new Response("Vous n'avez pas accès à cette page", 400);
+        }
     }
 }
