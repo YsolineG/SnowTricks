@@ -31,6 +31,7 @@ class FigureFormType extends AbstractType
                 'allow_add' => true,
                 'prototype' => true,
                 'mapped' => false,
+                'required' => false
             ])
         ;
     }
