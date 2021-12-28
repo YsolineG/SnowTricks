@@ -10,7 +10,7 @@
 
 <div class="example-wrapper">
     <h1>{{ figure.name }}</h1>
-    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+    {% if app.user.id == figure.user.id %}
         <a href="{{ path('update_figure', {id: figure.id}) }}">Modifier</a>
         <a href="{{ path('delete', {id: figure.id}) }}">Supprimer</a>
     {% endif %}
@@ -26,6 +26,10 @@
             <iframe width="560" height="315" src="{{ video.url }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
     {% endfor %}
+    <p>Ajouté le {{ figure.createdAt|date("d/m/Y") }} par {{ figure.user.username }}</p>
+    {% if figure.updatedAt %}
+        <p>Modifié le {{ figure.updatedAt|date("d/m/Y") }}</p>
+    {% endif %}
 </div>
     <div class="example-wrapper">
         {% for flashMessage in app.session.flashBag.get('success') %}
