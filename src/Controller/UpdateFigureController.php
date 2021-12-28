@@ -17,48 +17,56 @@ class UpdateFigureController extends AbstractController
     #[Route('/update/figure/{id}', name: 'update_figure')]
     public function index(Request $request, Figure $figure): Response
     {
-        $form = $this->createForm(FigureFormType::class, $figure);
-        $form->handleRequest($request);
+        $user = $this->getUser();
+        $usertrick = $figure->getUser();
+        if($user === $usertrick){
+            $form = $this->createForm(FigureFormType::class, $figure);
+            $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
-            // On récupère les photos transmises
-            $photos = $form->get('photos')->getData();
+            if($form->isSubmitted() && $form->isValid()) {
+                $figure->setUpdatedAt(new \DateTimeImmutable());
+                // On récupère les photos transmises
+                $photos = $form->get('photos')->getData();
 
-            // On boucle sur les photos
-            foreach ($photos as $photo) {
-                // On génère un nouveau nom de fichier
-                $file = md5(uniqid()) . '.' . $photo->guessExtension();
+                // On boucle sur les photos
+                foreach ($photos as $photo) {
+                    // On génère un nouveau nom de fichier
+                    $file = md5(uniqid()) . '.' . $photo->guessExtension();
 
-                // On copie le fichier dans le dossier uploads
-                $photo->move(
-                    $this->getParameter('photo_directory'),
-                    $file
-                );
+                    // On copie le fichier dans le dossier uploads
+                    $photo->move(
+                        $this->getParameter('photo_directory'),
+                        $file
+                    );
 
-                // On stocke la photo dans la bdd (son nom)
-                $pht = new Photos();
-                $pht->setName($file);
-                $figure->addPhoto($pht);
+                    // On stocke la photo dans la bdd (son nom)
+                    $pht = new Photos();
+                    $pht->setName($file);
+                    $figure->addPhoto($pht);
+                }
+
+                $videosUrl = $form->get('videos')->getData();
+
+                foreach ($videosUrl as $url) {
+                    $videoEntity = new Video();
+                    $url = str_replace('watch?v=', 'embed/', $url);
+                    $videoEntity->setUrl($url);
+                    $figure->addVideo($videoEntity);
+                }
+
+                $this->getDoctrine()->getManager()->flush();
+                $request->getSession()->getFlashBag()->add('success', 'La figure a bien été modifiée');
+                return $this->redirectToRoute('home');
             }
 
-            $videosUrl = $form->get('videos')->getData();
-
-            foreach ($videosUrl as $url) {
-                $videoEntity = new Video();
-                $url = str_replace('watch?v=', 'embed/', $url);
-                $videoEntity->setUrl($url);
-                $figure->addVideo($videoEntity);
-            }
-
-            $this->getDoctrine()->getManager()->flush();
-            $request->getSession()->getFlashBag()->add('success', 'La figure a bien été modifiée');
-            return $this->redirectToRoute('home');
+            return $this->render('update_figure/index.html.twig', [
+                'figureForm' => $form->createView(),
+                'figure' => $figure
+            ]);
+        } 
+        else {
+            return new Response("Vous n'avez pas accès à cette page", 400);
         }
-
-        return $this->render('update_figure/index.html.twig', [
-            'figureForm' => $form->createView(),
-            'figure' => $figure
-        ]);
     }
 
     #[Route('/delete/photo/{id}', name: 'delete_photo', methods: 'DELETE')]
