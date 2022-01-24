@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 /**
  * @ORM\Entity(repositoryClass=FigureRepository::class)
@@ -40,34 +41,38 @@ class Figure
 
     /**
      * @ORM\OneToMany(targetEntity=Video::class, mappedBy="figure", orphanRemoval=true, cascade={"persist", "remove"})
+     * @Ignore()
      */
     private $videos;
 
     /**
      * @ORM\ManyToMany(targetEntity=Photos::class, mappedBy="figure", cascade={"persist", "remove"})
+     * @Ignore()
      */
     private $photo;
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="figure", cascade={"persist", "remove"})
+     * @Ignore()
      */
     private $comments;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="figures")
      * @ORM\JoinColumn(nullable=false)
+     * @Ignore()
      */
-    private $user;
+    private User $user;
 
     /**
      * @ORM\Column(type="datetime_immutable")
      */
-    private $created_at;
+    private $createdAt;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
      */
-    private $updated_at;
+    private $updatedAt;
 
     public function __construct()
     {
@@ -218,25 +223,30 @@ class Figure
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $created_at): self
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
-        $this->created_at = $created_at;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
-        return $this->updated_at;
+        return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $updated_at): self
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
     {
-        $this->updated_at = $updated_at;
+        $this->updatedAt = $updatedAt;
 
         return $this;
+    }
+
+    public function getUserId(): int
+    {
+        return $this->user->getId();
     }
 }
