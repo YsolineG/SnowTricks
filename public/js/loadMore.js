@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    let loadMore = document.querySelector('.load-more');
+    let loadMore = document.getElementById("load-more");
     let page = 2;
 
     // Ecoute le clic
