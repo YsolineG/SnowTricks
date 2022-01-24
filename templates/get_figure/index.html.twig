@@ -10,7 +10,7 @@
 
 <div class="example-wrapper">
     <h1>{{ figure.name }}</h1>
-    {% if app.user.id == figure.user.id %}
+    {% if app.user and app.user.id == figure.user.id %}
         <a href="{{ path('update_figure', {id: figure.id}) }}">Modifier</a>
         <a href="{{ path('delete', {id: figure.id}) }}">Supprimer</a>
     {% endif %}

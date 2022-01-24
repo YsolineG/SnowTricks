@@ -6,6 +6,7 @@ use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 class ProfileController extends AbstractController
 {
@@ -23,6 +24,14 @@ class ProfileController extends AbstractController
 
         // Call whatever methods you've added to your User class
         // For example, if you added a getFirstName() method, you can use that.
-        return new Response('Well hi there '.$user->getUsername());
+        // return new Response('Well hi there '.$user->getUsername());
+        return $this->render('profile/index.html.twig', [
+            'user' => $user,
+        ]);
     }
+
+    // public function updateProfil()
+    // {
+
+    // }
 }
