@@ -26,14 +26,27 @@
         {{ flashMessage }}
     {% endfor %}
 
-    {% for figure in figures %}
-        <h3><a href="{{ path('get_figure', {id: figure.id}) }}">{{ figure.name }}</a></h3>
-        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            <a href="{{ path('update_figure', {id: figure.id}) }}">Modifier</a>
-            <a href="{{ path('delete', {id: figure.id}) }}">Supprimer</a>
-        {% endif %}
-        <p>{{ figure.description }}</p>
-        <p>{{ figure.figureGroup }}</p>
-    {% endfor %}
+    <div id="figures-container">
+        {% for figure in figures %}
+            <div>
+                <h3><a href="{{ path('get_figure', {id: figure.id}) }}">{{ figure.name }}</a></h3>
+        {#        {% if is_granted('IS_AUTHENTICATED_FULLY') %}#}
+        {#            <a href="{{ path('update_figure', {id: figure.id}) }}">Modifier</a>#}
+        {#            <a href="{{ path('delete', {id: figure.id}) }}">Supprimer</a>#}
+        {#        {% endif %}#}
+                {% if app.user and app.user.id == figure.user.id %}
+                    <a href="{{ path('update_figure', {id: figure.id}) }}">Modifier</a>
+                    <a href="{{ path('delete', {id: figure.id}) }}">Supprimer</a>
+                {% endif %}
+                <p>{{ figure.description }}</p>
+                <p>{{ figure.figureGroup }}</p>
+            </div>
+        {% endfor %}
+    </div>
+    <a href="#" class="load-more">Figures suivantes</a>
 </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/loadMore.js') }}"></script>
 {% endblock %}

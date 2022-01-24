@@ -19,6 +19,29 @@ class FigureRepository extends ServiceEntityRepository
         parent::__construct($registry, Figure::class);
     }
 
+    /**
+     * @param $page
+     * @param $limit
+     * Returns all Figures par page
+     */
+    public function getPaginatedFigures($page, $limit)
+    {
+        $query = $this->createQueryBuilder('f')
+            ->setFirstResult(($page * $limit) - $limit)
+            ->setMaxResults($limit);
+        return $query->getQuery()->getResult();
+    }
+
+    /**
+     * Returns number of figures
+     */
+    public function getTotalFigures()
+    {
+        $query = $this->createQueryBuilder('f')
+            ->select('COUNT(f)');
+        return $query->getQuery()->getSingleScalarResult();
+    }
+
     // /**
     //  * @return Figure[] Returns an array of Figure objects
     //  */
