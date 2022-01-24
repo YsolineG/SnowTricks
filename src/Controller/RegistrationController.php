@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,7 +25,7 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasherInterface): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasherInterface, \Swift_Mailer $mailer): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -38,6 +39,9 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+
+            // On génère le token d'activiation
+            $user->setActiviationToken(md5(uniqid()));
 
             // On récupère la photo transmise
             $photo = $form->get('photo')->getData();
@@ -53,6 +57,22 @@ class RegistrationController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
+
+            // On crée le message
+            $message = (new \Swift_Message('Activation de votre compte'))
+                // On attribue l'expéditeur
+                ->setFrom('no-reply@swon-tricks.com')
+                // On attribue le destinataire
+                ->setTo($user->getEmail())
+                // Oncrée le contenu
+                ->setBody(
+                    $this->renderView('emails/activation.html.twig', ['token' => $user->getActiviationToken()]),
+                    'text/html'
+                )
+            ;
+
+            // On envoie l'email
+            $mailer->send($message);
 
             // generate a signed url and email it to the user
 //            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
@@ -90,5 +110,27 @@ class RegistrationController extends AbstractController
         $this->addFlash('success', 'Your email address has been verified.');
 
         return $this->redirectToRoute('app_register');
+    }
+
+    #[Route('/activation/{token}', name: 'activation')]
+    public function activation($token, UserRepository $userRepository, Request $request)
+    {
+        // On vérifie si un utilisateur a ce token
+        $user = $userRepository->findOneBy(['activiation_token' => $token]);
+
+        if(!$user){
+            throw $this->createNotFoundException('Cet utilisateur n\'existe pas');
+        }
+
+        // On supprime le token
+        $user->setActiviationToken(null);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        // On envoie un message flash
+//        $this->addFlash('success', 'Votre compte est activé');
+        $request->getSession()->getFlashBag()->add('success', 'Votre compte est activé');
+        return $this->redirectToRoute('home');
     }
 }
