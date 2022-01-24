@@ -25,6 +25,7 @@ class FigureFormType extends AbstractType
             ->add('photos', FileType::class, [
                 'multiple' => true,
                 'mapped' => false,
+                'required' => false
             ])
             ->add('videos', CollectionType::class, [
                 'entry_type' => UrlType::class,
