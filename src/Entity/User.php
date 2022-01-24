@@ -64,6 +64,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $figures;
 
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $activiation_token;
+
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $reset_token;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -243,6 +253,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $figure->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getActiviationToken(): ?string
+    {
+        return $this->activiation_token;
+    }
+
+    public function setActiviationToken(?string $activiation_token): self
+    {
+        $this->activiation_token = $activiation_token;
+
+        return $this;
+    }
+
+    public function getResetToken(): ?string
+    {
+        return $this->reset_token;
+    }
+
+    public function setResetToken(?string $reset_token): self
+    {
+        $this->reset_token = $reset_token;
 
         return $this;
     }

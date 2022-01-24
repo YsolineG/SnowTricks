@@ -9,6 +9,16 @@
 
     <h1>Connexion</h1>
 
+    {% for flashMessage in app.session.flashBag.get('message') %}
+        {{ flashMessage }}
+    {% endfor %}
+    {% for flashMessage in app.session.flashBag.get('danger') %}
+        {{ flashMessage }}
+    {% endfor %}
+    {% for flashMessage in app.session.flashBag.get('warning') %}
+        {{ flashMessage }}
+    {% endfor %}
+
     <form action="{{ path('login') }}" method="post">
         <label for="username">Nom d'utilisateur</label>
         <input type="text" id="username" name="_username" value="{{ last_username }}"/>
@@ -21,4 +31,5 @@
 
         <button type="submit">Connexion</button>
     </form>
+    <a href="{{ path('forgot_password') }}">Mot de passe oublié</a>
 {% endblock %}
