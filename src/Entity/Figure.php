@@ -74,6 +74,11 @@ class Figure
      */
     private $updatedAt;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $slug;
+
     public function __construct()
     {
         $this->photo = new ArrayCollection();
@@ -248,5 +253,17 @@ class Figure
     public function getUserId(): int
     {
         return $this->user->getId();
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
     }
 }

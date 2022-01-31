@@ -11,11 +11,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class AddFigureController extends AbstractController
 {
     #[Route('/add/figure', name: 'add_figure')]
-    public function index(Request $request): Response
+    public function index(Request $request, SluggerInterface $slugger): Response
     {
         $user = $this->getUser();
         if($user) {
@@ -24,7 +25,8 @@ class AddFigureController extends AbstractController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $figure->setCreatedAt(new \DateTimeImmutable());
+                $figure->setCreatedAt(new \DateTimeImmutable())
+                ->setSlug(strtolower($slugger->slug($figure->getName())));
                 // On récupère les photos transmises
                 $photos = $form->get('photos')->getData();
 
