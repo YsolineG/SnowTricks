@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Comment;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -17,6 +19,37 @@ class CommentRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Comment::class);
+    }
+
+    /**
+     * @param $page
+     * @param $limit
+     * Returns all Comments par page
+     */
+    public function getPaginatedComments($page, $limit)
+    {
+        $query = $this->createQueryBuilder('f')
+            ->setFirstResult(($page * $limit) - $limit)
+            ->setMaxResults($limit);
+        return $query->getQuery()->getResult();
+    }
+
+
+    /**
+     * @param $page
+     * @param $limit
+     * Returns all Comments par page
+     */
+    public function getPaginatedCommentsByFigureId(int $figureId, $page, $limit)
+    {
+        $query = $this->createQueryBuilder('comment')
+            ->select('comment.id, comment.content, comment.createdAt, user.id as userId, user.username, user.photo')
+            ->innerJoin(User::class, 'user', Join::WITH, 'comment.user = user.id')
+            ->where('comment.figure = :figureId')
+            ->setParameter('figureId', $figureId)
+            ->setFirstResult(($page * $limit) - $limit)
+            ->setMaxResults($limit);
+        return $query->getQuery()->getResult();
     }
 
     // /**
