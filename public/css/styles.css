@@ -1,0 +1,31 @@
+.group-media-figure {
+    display: flex;
+    justify-content: space-around;
+}
+
+.photo-figure {
+    width: 150px;
+    height: 100px
+}
+
+.video-figure {
+    width: 150px;
+    height: 100px
+}
+
+/*
+* Texte sur l'image
+*/
+.container-photo img {
+    width: 100%;
+    object-fit: cover;
+}
+
+#figures-container {
+    margin: 2em
+}
+
+.load-more-button {
+    text-align: center;
+    margin: 2em
+}
