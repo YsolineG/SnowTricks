@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 /**
  * @ORM\Entity(repositoryClass=CommentRepository::class)
@@ -20,12 +21,14 @@ class Comment
     /**
      * @ORM\ManyToOne(targetEntity=Figure::class, inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
+     * @Ignore()
      */
     private $figure;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
+     * @Ignore()
      */
     private $user;
 
@@ -37,7 +40,7 @@ class Comment
     /**
      * @ORM\Column(type="datetime_immutable")
      */
-    private $created_at;
+    private $createdAt;
 
     public function getId(): ?int
     {
@@ -82,12 +85,12 @@ class Comment
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $created_at): self
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
-        $this->created_at = $created_at;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
