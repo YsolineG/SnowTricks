@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-  console.log("coucou");
   // Gestion des boutons supprimer
   let links = document.querySelectorAll("[data-delete-photo]");
   console.log(links);
