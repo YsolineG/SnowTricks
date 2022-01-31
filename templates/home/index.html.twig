@@ -3,48 +3,43 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Accueil</h1>
-
-    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-        <a href="{{ path('app_logout') }}">Deconnexion</a>
-        <a href="{{ path('profile') }}">Profil</a>
-        <a href="{{ path('add_figure') }}">Ajouter une figure</a>
-    {% else %}
-        <a href="{{ path('login') }}">Connexion</a>
-        <a href="{{ path('app_register') }}">Inscription</a>
-    {% endif %}
-
-    <h2>Tricks</h2>
-
     {% for flashMessage in app.session.flashBag.get('success') %}
         {{ flashMessage }}
     {% endfor %}
 
-    <div id="figures-container">
-        {% for figure in figures %}
-            <div>
-                <h3><a href="{{ path('get_figure', {id: figure.id}) }}">{{ figure.name }}</a></h3>
-        {#        {% if is_granted('IS_AUTHENTICATED_FULLY') %}#}
-        {#            <a href="{{ path('update_figure', {id: figure.id}) }}">Modifier</a>#}
-        {#            <a href="{{ path('delete', {id: figure.id}) }}">Supprimer</a>#}
-        {#        {% endif %}#}
-                {% if app.user and app.user.id == figure.user.id %}
-                    <a href="{{ path('update_figure', {id: figure.id}) }}">Modifier</a>
-                    <a href="{{ path('delete', {id: figure.id}) }}">Supprimer</a>
-                {% endif %}
-                <p>{{ figure.description }}</p>
-                <p>{{ figure.figureGroup }}</p>
-            </div>
-        {% endfor %}
+    <div>
+        <div class="container-photo position-relative">
+            <img src="{{ asset ('/uploads/unsplash-mountain.jpg') }}" class="vh-100" alt="mountain">
+            <h1 class="text-photo position-absolute top-50 start-50 translate-middle">Voici mon texte</h1>
+        </div>
+
+        <div id="figures-container" class="row row-cols-1 row-cols-md-5 g-4">
+            {% for figure in figures %}
+                <div class="col">
+                    <div class="card h-100" style="width: 18rem;">
+                        <img src="{{ asset('/uploads/snow_tricks_01.jpg') }}" class="card-img-top" alt="...">
+                        <div class="card-body d-flex justify-content-between">
+                            <h5 class="card-title"><a
+                                        href="{{ path('get_figure', {'id': figure.id, 'slug': figure.slug}) }}">{{ figure.name }}</a>
+                            </h5>
+                            {% if app.user and app.user.id == figure.user.id %}
+
+                            <div class="button-icon">
+                                <a href="{{ path('delete', {id: figure.id}) }}" class="delete"><i
+                                            class="bi bi-trash-fill"></i></a>
+                                <a href="{{ path('update_figure', {id: figure.id}) }}" class="edit"><i
+                                            class="bi bi-pencil-square"></i></a>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="load-more-button">
+            <a href="#" class="btn btn-primary" role="button" id="load-more">Figures suivantes</a>
+        </div>
     </div>
-    <a href="#" class="load-more">Figures suivantes</a>
-</div>
 {% endblock %}
 
 {% block javascripts %}

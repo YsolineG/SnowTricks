@@ -25,13 +25,22 @@
             label: "Photo"
         }) }}
 
+    <div class="group-media-figure">
         {% for photo in figure.photo %}
             <div>
-                <img src="{{ asset('/uploads/' ~ photo.name) }}" alt="Photo" width="150">
-                <a href="{{ path('delete_photo', {id: photo.id}) }}"
-                   data-delete-photo data-token="{{ csrf_token('delete' ~ photo.id) }}">Supprimer</a>
+                <img src="{{ asset('/uploads/' ~ photo.name) }}" alt="Photo" class="photo-figure"><br>
+                <a href="{{ path('delete_photo', {id: photo.id}) }}" data-delete-photo data-token="{{ csrf_token('delete' ~ photo.id) }}">
+                    <i class="bi bi-trash-fill"></i>
+                </a>
             </div>
         {% endfor %}
+        {% for video in figure.videos %}
+            <div>
+                <iframe src="{{ video.url }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="video-figure"></iframe><br>
+                <a href="{{ path('delete_video', {id: video.id}) }}" data-delete data-token="{{ csrf_token('delete' ~ video.id) }}"><i class="bi bi-trash-fill"></i></a>
+            </div>
+        {% endfor %}
+    </div>
 
         {{ form_label(figureForm.videos) }}
         {{ form_errors(figureForm.videos) }}
@@ -44,19 +53,14 @@
                 </li>
             {% endfor %}
         </ul>
-        <button type="button" id="button-add-video" class="btn" data-template="{{ form_widget(figureForm.videos.vars.prototype)|e }}">Ajouter une vidéo</button>
+        <button type="button" id="button-add-video" class="btn btn-primary" data-template="{{ form_widget(figureForm.videos.vars.prototype)|e }}">Ajouter une vidéo</button>
 
-        {% for video in figure.videos %}
-            <div>
-                <iframe width="560" height="315" src="{{ video.url }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                <a href="{{ path('delete_video', {id: video.id}) }}" data-delete data-token="{{ csrf_token('delete' ~ video.id) }}">Supprimer</a>
-            </div>
-        {% endfor %}
 
-        <button type="submit" class="btn">Modifier</button>
+
+        <button type="submit" class="btn btn-primary">Sauvegarder</button>
     {{ form_end(figureForm) }}
 
-    <a href="{{ path('delete', {id: figure.id}) }}">Supprimer la figure</a>
+    <a href="{{ path('delete', {id: figure.id}) }}" class="btn btn-danger">Supprimer la figure</a><br>
 
     <a href="{{ path('home') }}">Retour</a>
 </div>
