@@ -15,7 +15,7 @@ class HomeController extends AbstractController
     /**
      * Home page
      *
-     * @Route("/home", name="home")
+     * @Route("/", name="home")
      */
     public function index(FigureRepository $figureRepository, Request $request): Response
     {
