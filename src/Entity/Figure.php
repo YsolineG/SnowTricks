@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Asset\Package;
+use Symfony\Component\Asset\VersionStrategy\EmptyVersionStrategy;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Ignore;
 
@@ -48,6 +50,7 @@ class Figure
     /**
      * @ORM\ManyToMany(targetEntity=Photos::class, mappedBy="figure", cascade={"persist", "remove"})
      * @Ignore()
+     * @var Photos[]
      */
     private $photo;
 
@@ -265,5 +268,16 @@ class Figure
         $this->slug = $slug;
 
         return $this;
+    }
+
+    public function getMainPhotoUrl(): string
+    {
+        $package = new Package(new EmptyVersionStrategy());
+
+        if (count($this->photo) === 0) {
+            return $package->getUrl('/uploads/snow_tricks_01.jpg');
+        }
+
+        return $this->photo[0]->getUrl();
     }
 }
