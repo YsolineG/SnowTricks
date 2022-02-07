@@ -3,17 +3,16 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
-    <div class="container-photo position-relative">
+    <div class="container-photo position-relative mb-5">
         <img src="{{ asset ('/uploads/unsplash-mountain.jpg') }}" class="vh-100" alt="mountain">
-        <h1 class="text-center text-photo position-absolute top-50 start-50 translate-middle">Voici mon texte</h1>
+        <h1 class="text-center text-photo position-absolute top-50 start-50 translate-middle">SnowTricks</h1>
         <a href="#figures-container" class="position-absolute bottom-0 end-0 link-dark"><i
                     class="bi bi-arrow-down fs-1 "></i></a>
     </div>
 
     {% for flashMessage in app.session.flashBag.get('success') %}
-        <div class="mb-3 alert alert-success" role="alert" style="width: 500px;">
+        <div class="mb-3 alert alert-success text-center mx-auto" role="alert" style="width: 500px;">
             {{ flashMessage }}
-
         </div>
     {% endfor %}
 
@@ -31,7 +30,7 @@
                             {% if app.user and app.user.id == figure.user.id %}
 
                                 <div class="button-icon">
-                                    <a href="{{ path('delete', {id: figure.id}) }}" class="delete"><i
+                                    <a href="{{ path('delete', {id: figure.id}) }}" class="delete" onclick="return confirm('Etes vous sure de vouloir supprimer cette figure ?')"><i
                                                 class="bi bi-trash-fill"></i></a>
                                     <a href="{{ path('update_figure', {id: figure.id}) }}" class="edit"><i
                                                 class="bi bi-pencil-square"></i></a>
