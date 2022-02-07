@@ -8,47 +8,36 @@ document.addEventListener("DOMContentLoaded", function () {
         e.preventDefault();
         fetch(this.getAttribute("href") + '?page=' + page).then(function (response) {
             return response.json().then(function (comments) {
-                console.log(comments)
                 page++;
                 for (const comment of comments) {
                     let divCommentElement = document.createElement('div');
-                    let divRowElement = document.createElement('div');
-                    let divCol4Element = document.createElement('div');
-                    let imgCardElement = document.createElement('img');
-                    let divCol8Element = document.createElement('div');
-                    let divCardBodyElement = document.createElement('div');
-                    let h5CardTitleElement = document.createElement('h5');
-                    let pCardContentElement = document.createElement('p');
-                    let pCardDateElement = document.createElement('p');
+                    let imgElement = document.createElement('img');
+                    let divElement = document.createElement('div');
+                    let h1Element = document.createElement('h1');
+                    let pContentElement = document.createElement('p');
+                    let pDateElement = document.createElement('p');
 
-                    divCommentElement.className = 'card mb-3';
-                    divCommentElement.style.cssText = 'max-width: 540px;'
-                    divRowElement.className = 'row g-0';
-                    divCol4Element.className = 'col-md-4';
-                    imgCardElement.className = 'img-fluid rounded-circle'
-                    imgCardElement.width = 50;
-                    imgCardElement.src = '/uploads/user/' + comment.photo;
-                    divCol8Element.className = 'col-md-8';
-                    divCardBodyElement.className = 'card-body';
-                    h5CardTitleElement.className = 'card-title';
-                    h5CardTitleElement.innerText = comment.username;
-                    pCardContentElement.className = 'card-text';
-                    pCardContentElement.innerText = comment.content;
-                    pCardDateElement.className = 'card-text';
-                    pCardDateElement.innerText = 'Publié le ' + comment.createdAt;
+                    divCommentElement.className = 'd-flex align-items-center mb-4';
+                    imgElement.className = 'rounded-circle object-fit-cover me-3'
+                    imgElement.width = 80;
+                    imgElement.height = 80;
+                    imgElement.src = '/uploads/user/' + comment.photo;
+                    divElement.className = 'border flex-grow-1 p-3'
+                    h1Element.className = 'fs-4 fw-bold mb-0';
+                    h1Element.innerText = comment.username;
+                    pContentElement.className = 'mb-0';
+                    pContentElement.innerText = comment.content;
+                    pDateElement.className = 'text-muted mb-0';
+                    pDateElement.innerText = 'Publié le ' + new Date(comment.createdAt).toLocaleDateString();
 
-                    divCommentElement.appendChild(divRowElement);
-                    divRowElement.appendChild(divCol4Element);
-                    divCol4Element.appendChild(imgCardElement);
-                    divRowElement.appendChild(divCol8Element);
-                    divCol8Element.appendChild(divCardBodyElement);
-                    divCardBodyElement.appendChild(h5CardTitleElement);
-                    divCardBodyElement.appendChild(pCardContentElement);
-                    divCardBodyElement.appendChild(pCardDateElement);
+                    divCommentElement.appendChild(imgElement);
+                    divCommentElement.appendChild(divElement);
+                    divElement.appendChild(h1Element);
+                    divElement.appendChild(pContentElement);
+                    divElement.appendChild(pDateElement);
 
                     let commentsContainer = document.querySelector('#comments-container');
                     commentsContainer.appendChild(divCommentElement);
-                    console.log(commentsContainer)
                 }
             })
         })
