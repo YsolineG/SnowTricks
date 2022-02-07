@@ -36,7 +36,9 @@ class GetFigureController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($comment);
             $entityManager->flush();
-            $request->getSession()->getFlashBag()->add('success', 'Votre commentaire a bien été ajoutée');
+            $request->getSession()->getFlashBag()->add('success', 'Votre commentaire a bien été ajouté');
+
+            return $this->redirect($request->getUri());
         }
 
         $limit = 2;
