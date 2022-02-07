@@ -19,20 +19,34 @@ class FigureFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('description', TextareaType::class)
-            ->add('figureGroup', TextType::class)
+            ->add('name', null, [
+                'label' => false,
+                'attr' => [
+                    'style' => 'width: 500px'
+                ]
+            ])
+            ->add('description', TextareaType::class, [
+                'label' => false,
+                'attr' => [
+                    'style' => 'height: 200px'
+                ]
+            ])
+            ->add('figureGroup', TextType::class, [
+                'label' => false
+            ])
             ->add('photos', FileType::class, [
                 'multiple' => true,
                 'mapped' => false,
-                'required' => false
+                'required' => false,
+                'label' => false
             ])
             ->add('videos', CollectionType::class, [
                 'entry_type' => UrlType::class,
                 'allow_add' => true,
                 'prototype' => true,
                 'mapped' => false,
-                'required' => false
+                'required' => false,
+                'label' => false
             ])
         ;
     }
