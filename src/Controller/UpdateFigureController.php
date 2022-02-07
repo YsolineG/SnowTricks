@@ -55,8 +55,8 @@ class UpdateFigureController extends AbstractController
                 }
 
                 $this->getDoctrine()->getManager()->flush();
-                $request->getSession()->getFlashBag()->add('success', 'La figure a bien été modifiée');
-                return $this->redirectToRoute('home');
+                $request->getSession()->getFlashBag()->add('figure-success', 'La figure a bien été modifiée');
+                return $this->redirectToRoute('get_figure', ['id' => $figure->getId(), 'slug' => $figure->getSlug()]);
             }
 
             return $this->render('update_figure/index.html.twig', [
