@@ -21,8 +21,8 @@
         <div class="container-photo position-relative mb-3">
             <img src="{{ figure.getMainPhotoUrl }}" class="img-fluid" alt="snow-tricks">
             <h1 class="text-photo position-absolute top-50 start-50 translate-middle text-center">{{ figure.name }}</h1>
-            <div class="border position-absolute top-0 end-0">
-                <a href=""><i class="bi bi-trash-fill" style="font-size: 2rem; color: black"></i></a>
+            <div class="border position-absolute top-0 end-0 bg-white py-1 px-3 mt-2 me-2">
+                <a href=""><i class="bi bi-trash-fill" style="font-size: 1rem; color: black"></i></a>
             </div>
         </div>
 
@@ -78,7 +78,7 @@
             {{ form_end(figureForm) }}
         </div>
 
-        <a href="{{ path('delete', {id: figure.id}) }}" class="btn btn-danger">Supprimer la figure</a><br>
+        <a href="{{ path('delete', {id: figure.id}) }}" class="btn btn-danger" onclick="return confirm('Etes vous sure de vouloir supprimer cette figure ?')">Supprimer la figure</a><br>
     </div>
 {% endblock %}
 
