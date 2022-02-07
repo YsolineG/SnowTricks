@@ -3,33 +3,51 @@
 {% block title %}Connexion{% endblock %}
 
 {% block body %}
+    <style>
+        .example-wrapper {
+            margin: 1em auto;
+            max-width: 800px;
+            width: 95%;
+            font: 18px/1.5 sans-serif;
+        }
+
+        .example-wrapper code {
+            background: #F5F5F5;
+            padding: 2px 6px;
+        }
+    </style>
     {% if error %}
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    <h1>Connexion</h1>
+    <h1 class="text-center">Connexion</h1>
 
-    {% for flashMessage in app.session.flashBag.get('message') %}
-        {{ flashMessage }}
-    {% endfor %}
-    {% for flashMessage in app.session.flashBag.get('danger') %}
-        {{ flashMessage }}
-    {% endfor %}
-    {% for flashMessage in app.session.flashBag.get('warning') %}
-        {{ flashMessage }}
-    {% endfor %}
+    <div class="example-wrapper border p-5 text-center">
+        {% for flashMessage in app.session.flashBag.get('message') %}
+            {{ flashMessage }}
+        {% endfor %}
+        {% for flashMessage in app.session.flashBag.get('danger') %}
+            {{ flashMessage }}
+        {% endfor %}
+        {% for flashMessage in app.session.flashBag.get('warning') %}
+            {{ flashMessage }}
+        {% endfor %}
 
-    <form action="{{ path('login') }}" method="post">
-        <label for="username">Nom d'utilisateur</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}"/>
+        <form action="{{ path('login') }}" method="post">
+            <label for="username" class="form-label">Nom d'utilisateur</label>
+            <input type="text" class="form-control" id="username" name="_username" value="{{ last_username }}"/>
 
-        <label for="password">Mot de passe</label>
-        <input type="password" id="password" name="_password"/>
+            <label for="password" class="form-label">Mot de passe</label>
+            <input type="password" class="form-control" id="password" name="_password"/>
 
-        {# If you want to control the URL the user is redirected to on success
-        <input type="hidden" name="_target_path" value="/account"/> #}
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Connexion</button>
+                <br>
 
-        <button type="submit">Connexion</button>
-    </form>
-    <a href="{{ path('forgot_password') }}">Mot de passe oublié</a>
+                <a href="{{ path('app_register') }}">Inscription</a><br>
+                <a href="{{ path('forgot_password') }}">Mot de passe oublié ?</a>
+
+            </div>
+        </form>
+    </div>
 {% endblock %}

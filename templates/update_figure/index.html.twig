@@ -3,67 +3,83 @@
 {% block title %}Modifier{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <style>
+        .example-wrapper {
+            margin: 1em auto;
+            max-width: 800px;
+            width: 95%;
+            font: 18px/1.5 sans-serif;
+        }
 
-<div class="example-wrapper">
-    <h1>Modifier</h1>
+        .example-wrapper code {
+            background: #F5F5F5;
+            padding: 2px 6px;
+        }
+    </style>
 
-    {{ form_start(figureForm) }}
-        {{ form_row(figureForm.name, {
-            label: "Nom"
-        }) }}
-        {{ form_row(figureForm.description, {
-            label: "Description"
-        }) }}
-        {{ form_row(figureForm.figureGroup, {
-            label: "Groupe du tricks"
-        }) }}
-        {{ form_row(figureForm.photos, {
-            label: "Photo"
-        }) }}
-
-    <div class="group-media-figure">
-        {% for photo in figure.photo %}
-            <div>
-                <img src="{{ asset('/uploads/' ~ photo.name) }}" alt="Photo" class="photo-figure"><br>
-                <a href="{{ path('delete_photo', {id: photo.id}) }}" data-delete-photo data-token="{{ csrf_token('delete' ~ photo.id) }}">
-                    <i class="bi bi-trash-fill"></i>
-                </a>
+    <div class="example-wrapper">
+        <div class="container-photo position-relative mb-3">
+            <img src="{{ figure.getMainPhotoUrl }}" class="img-fluid" alt="snow-tricks">
+            <h1 class="text-photo position-absolute top-50 start-50 translate-middle text-center">{{ figure.name }}</h1>
+            <div class="border position-absolute top-0 end-0">
+                <a href=""><i class="bi bi-trash-fill" style="font-size: 2rem; color: black"></i></a>
             </div>
-        {% endfor %}
-        {% for video in figure.videos %}
-            <div>
-                <iframe src="{{ video.url }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="video-figure"></iframe><br>
-                <a href="{{ path('delete_video', {id: video.id}) }}" data-delete data-token="{{ csrf_token('delete' ~ video.id) }}"><i class="bi bi-trash-fill"></i></a>
-            </div>
-        {% endfor %}
-    </div>
+        </div>
 
-        {{ form_label(figureForm.videos) }}
-        {{ form_errors(figureForm.videos) }}
-
-        <ul id="list-video">
-            {% for videoField in figureForm.videos %}
-                <li>
-                    {{ form_errors(videoField) }}
-                    {{ form_widget(videoField) }}
-                </li>
+        <div class="main-group-media-figure mt-3">
+            {% for photo in figure.photo %}
+                <div>
+                    <img src="{{ asset('/uploads/' ~ photo.name) }}" alt="Photo" class="photo-figure"><br>
+                    <a href="{{ path('delete_photo', {id: photo.id}) }}" data-delete-photo
+                       data-token="{{ csrf_token('delete' ~ photo.id) }}">
+                        <i class="bi bi-trash-fill"></i>
+                    </a>
+                </div>
             {% endfor %}
-        </ul>
-        <button type="button" id="button-add-video" class="btn btn-primary" data-template="{{ form_widget(figureForm.videos.vars.prototype)|e }}">Ajouter une vidéo</button>
+            {% for video in figure.videos %}
+                <div>
+                    <iframe src="{{ video.url }}" title="YouTube video player" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen class="video-figure"></iframe>
+                    <br>
+                    <a href="{{ path('delete_video', {id: video.id}) }}" data-delete
+                       data-token="{{ csrf_token('delete' ~ video.id) }}"><i class="bi bi-trash-fill"></i></a>
+                </div>
+            {% endfor %}
+        </div>
 
+        <div class="phone-group-media text-center">
+            <button class="btn btn-primary">Voir médias</button>
+        </div>
 
+        <div class="mt-3 mb-3">
+            {{ form_start(figureForm) }}
+            {{ form_row(figureForm.name) }}
+            {{ form_row(figureForm.description) }}
+            {{ form_row(figureForm.figureGroup) }}
+            {{ form_row(figureForm.photos) }}
 
-        <button type="submit" class="btn btn-primary">Sauvegarder</button>
-    {{ form_end(figureForm) }}
+            {{ form_label(figureForm.videos) }}
+            {{ form_errors(figureForm.videos) }}
 
-    <a href="{{ path('delete', {id: figure.id}) }}" class="btn btn-danger">Supprimer la figure</a><br>
+            <ul id="list-video">
+                {% for videoField in figureForm.videos %}
+                    <li>
+                        {{ form_errors(videoField) }}
+                        {{ form_widget(videoField) }}
+                    </li>
+                {% endfor %}
+            </ul>
+            <button type="button" id="button-add-video" class="btn btn-primary"
+                    data-template="{{ form_widget(figureForm.videos.vars.prototype)|e }}">Ajouter une vidéo
+            </button>
 
-    <a href="{{ path('home') }}">Retour</a>
-</div>
+            <button type="submit" class="btn btn-primary">Sauvegarder</button>
+            {{ form_end(figureForm) }}
+        </div>
+
+        <a href="{{ path('delete', {id: figure.id}) }}" class="btn btn-danger">Supprimer la figure</a><br>
+    </div>
 {% endblock %}
 
 {% block javascripts %}

@@ -17,93 +17,90 @@
         }
     </style>
 
-    <div class="container-photo position-relative">
-        <img src="{{ asset ('/uploads/snow_tricks_01.jpg') }}" class="vh-100" alt="snow-tricks">
-        <h1 class="text-photo position-absolute top-50 start-50 translate-middle">{{ figure.name }}</h1>
-        {% if app.user and app.user.id == figure.user.id %}
-            <div class="edit-delete position-absolute top-0 end-0">
-                <a href="{{ path('delete', {id: figure.id}) }}" class="delete"><i class="bi bi-trash-fill"
-                                                                                  style="font-size: 2rem; color: black"></i></a>
-                <a href="{{ path('update_figure', {id: figure.id}) }}" class="edit"><i class="bi bi-pencil-square"
-                                                                                       style="font-size: 2rem; color: black"></i></a>
+    <div>
+        <div class="example-wrapper mt-5">
+            <div class="container-photo position-relative mb-3">
+                <img src="{{ figure.getMainPhotoUrl }}" class="img-fluid" alt="snow-tricks">
+                <h1 class="text-photo text-center position-absolute top-50 start-50 translate-middle">{{ figure.name }}</h1>
+                {% if app.user and app.user.id == figure.user.id %}
+                    <div class="border position-absolute top-0 end-0">
+                        <a href="{{ path('delete', {id: figure.id}) }}" class="delete"><i class="bi bi-trash-fill"
+                                                                                          style="font-size: 2rem; color: black"></i></a>
+                        <a href="{{ path('update_figure', {id: figure.id}) }}" class="edit"><i
+                                    class="bi bi-pencil-square"
+                                    style="font-size: 2rem; color: black"></i></a>
+                    </div>
+                {% endif %}
             </div>
-        {% endif %}
-    </div>
 
-    <div class="example-wrapper">
+            <div class="main-group-media-figure mt-3">
+                {% for photo in figure.photo %}
+                    <div>
+                        <img src="{{ asset('/uploads/' ~ photo.name) }}" alt="Photo" class="photo-figure">
+                    </div>
+                {% endfor %}
+                {% for video in figure.videos %}
+                    <div>
+                        <iframe width="560" height="315" src="{{ video.url }}" title="YouTube video player"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen class="video-figure"></iframe>
+                    </div>
+                {% endfor %}
+            </div>
 
-        <div class="group-media-figure">
-            {% for photo in figure.photo %}
-                <div>
-                    <img src="{{ asset('/uploads/' ~ photo.name) }}" alt="Photo" class="photo-figure">
+            <div class="phone-group-media text-center">
+                <button class="btn btn-primary">Voir médias</button>
+            </div>
+
+            <div class="text-center mt-5 mb-5">
+                <p>{{ figure.description }}</p>
+
+                <span class="badge bg-primary">{{ figure.figureGroup }}</span>
+                <span class="badge bg-primary">Créé le {{ figure.createdAt|date("d/m/Y") }}</span>
+                <span class="badge bg-primary">Par {{ figure.user.username }}</span>
+                {% if figure.updatedAt %}
+                    <span class="badge bg-primary">Modifié le {{ figure.updatedAt|date("d/m/Y") }}</span>
+                {% endif %}
+            </div>
+
+            <hr>
+            {% for flashMessage in app.session.flashBag.get('success') %}
+                <div class="alert alert-success" role="alert">
+                    {{ flashMessage }}
                 </div>
             {% endfor %}
-            {% for video in figure.videos %}
+
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 <div>
-                    <iframe width="560" height="315" src="{{ video.url }}" title="YouTube video player" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen class="video-figure"></iframe>
+                    {{ form_start(commentForm) }}
+                    {{ form_row(commentForm.content) }}
+                    <button type="submit" class="btn btn-primary">Ajouter un commentaire</button>
+                    {{ form_end(commentForm) }}
                 </div>
-            {% endfor %}
-        </div>
+                <hr>
+            {% endif %}
 
-        <p>{{ figure.description }}</p>
-
-        <span class="badge bg-primary">{{ figure.figureGroup }}</span>
-        <span class="badge bg-primary">Créé le {{ figure.createdAt|date("d/m/Y") }}</span>
-        <span class="badge bg-primary">Par {{ figure.user.username }}</span>
-        {% if figure.updatedAt %}
-            <span class="badge bg-primary">Modifié le {{ figure.updatedAt|date("d/m/Y") }}</span>
-        {% endif %}
-    </div>
-
-    <div class="example-wrapper">
-        <hr>
-        {% for flashMessage in app.session.flashBag.get('success') %}
-            <div class="alert alert-success" role="alert">
-                {{ flashMessage }}
-            </div>
-        {% endfor %}
-
-        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            {{ form_start(commentForm) }}
-            {{ form_row(commentForm.content, {
-                label: "Commentaire"
-            }) }}
-            <button type="submit" class="btn btn-primary">Ajouter un commentaire</button>
-            {{ form_end(commentForm) }}
-        {% endif %}
-        <hr>
-
-        <div id="comments-container">
-            {% for comment in comments %}
-                <div class="card mb-3" style="max-width: 540px;">
-                    <div class="row g-0">
-                        <div class="col-md-4">
-                            <img src="{{ asset('/uploads/user/' ~ comment.photo) }}"
-                                 class="img-fluid rounded-circle"
-                                 alt="..." width="50">
-                        </div>
-                        <div class="col-md-8">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ comment.username }}</h5>
-                                <p class="card-text">{{ comment.content }}</p>
-                                <p class="card-text"><small class="text-muted">Publié
-                                        le {{ comment.createdAt|date("d/m/Y") }}</small></p>
-                            </div>
+            <div id="comments-container">
+                {% for comment in comments %}
+                    <div class="d-flex align-items-center mb-4">
+                        <img src="{{ asset('/uploads/user/' ~ comment.photo) }}" alt=""
+                             class="rounded-circle object-fit-cover me-3" width="80" height="80">
+                        <div class="border flex-grow-1 p-3">
+                            <h1 class="fs-4 fw-bold mb-0">{{ comment.username }}</h1>
+                            <p class="mb-0">{{ comment.content }}</p>
+                            <p class="text-muted mb-0">{{ comment.createdAt|date("d/m/Y") }}</p>
                         </div>
                     </div>
-                </div>
-            {% endfor %}
-        </div>
+                {% endfor %}
+            </div>
 
-        <div class="load-more-button">
-            <a href="{{ path('api_figure_comments', {id: figure.id}) }}" class="btn btn-primary" role="button"
-               id="load-more-comments"
-            >Commentaires suivants</a>
+            <div class="text-center">
+                <a href="{{ path('api_figure_comments', {id: figure.id}) }}" class="btn btn-primary" role="button"
+                   id="load-more-comments"
+                >Commentaires suivants</a>
+            </div>
         </div>
-
-        <a href="{{ path('home') }}">Retour</a>
     </div>
 {% endblock %}
 
