@@ -6,6 +6,8 @@ use App\Repository\PhotosRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Asset\Package;
+use Symfony\Component\Asset\VersionStrategy\EmptyVersionStrategy;
 
 /**
  * @ORM\Entity(repositoryClass=PhotosRepository::class)
@@ -73,5 +75,12 @@ class Photos
         $this->figure->removeElement($figure);
 
         return $this;
+    }
+
+    public function getUrl(): string
+    {
+        $package = new Package(new EmptyVersionStrategy());
+
+        return $package->getUrl('/uploads/' . $this->getName());
     }
 }
