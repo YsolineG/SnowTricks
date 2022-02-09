@@ -103,7 +103,7 @@ class AddFigureController extends AbstractController
 
             return $this->redirectToRoute('home');
         } else {
-            return new Response("Vous n'avez pas accès à cette page", 400);
+            return new Response("Vous n'avez pas accès à cette page", Response::HTTP_UNAUTHORIZED);
         }
     }
 }
