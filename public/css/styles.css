@@ -3,14 +3,14 @@
     justify-content: space-around;
 }
 
-.photo-figure {
-    width: 150px;
-    height: 100px;
+.photo-figure-phone {
+    max-width: 90%;
+    height: auto;
 }
 
-.video-figure {
-    width: 150px;
-    height: 100px;
+.video-figure-phone {
+    max-width: 100%;
+    height: auto;
 }
 
 /*
@@ -88,5 +88,15 @@ body {
 
     .path-registration {
         display: none;
+    }
+
+    .photo-figure {
+        width: 150px;
+        height: 100px;
+    }
+
+    .video-figure {
+        width: 150px;
+        height: 100px;
     }
 }
