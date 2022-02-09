@@ -17,10 +17,11 @@
         }
     </style>
 
-    <h1 class="text-center">Ajouter une figure</h1>
+    <h1 class="text-center mt-3">Ajouter une figure</h1>
 
     <div class="example-wrapper">
 
+        <div class="border rounded">
         {{ form_start(figureForm) }}
         {{ form_row(figureForm.name, {
             label: "Nom"
@@ -53,6 +54,7 @@
 
         <button type="submit" class="btn btn-primary">Sauvegarder</button>
         {{ form_end(figureForm) }}
+        </div>
     </div>
 {% endblock %}
 
