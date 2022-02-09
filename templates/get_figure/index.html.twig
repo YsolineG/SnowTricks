@@ -30,9 +30,11 @@
                 <img src="{{ figure.getMainPhotoUrl }}" class="img-fluid" alt="snow-tricks">
                 <h1 class="text-photo text-center position-absolute top-50 start-50 translate-middle">{{ figure.name }}</h1>
                 {% if app.user and app.user.id == figure.user.id %}
-                    <div class="border position-absolute top-0 end-0 bg-white py-1 px-3 mt-2 me-2">
-                        <a href="{{ path('delete', {id: figure.id}) }}" class="delete me-2" onclick="return confirm('Etes vous sure de vouloir supprimer cette figure ?')"><i class="bi bi-trash-fill"
-                                                                                          style="font-size: 1rem; color: black"></i></a>
+                    <div class="border rounded position-absolute top-0 end-0 bg-white py-1 px-3 mt-2 me-2">
+                        <a href="{{ path('delete', {id: figure.id}) }}" class="delete me-2"
+                           onclick="return confirm('Etes vous sure de vouloir supprimer cette figure ?')"><i
+                                    class="bi bi-trash-fill"
+                                    style="font-size: 1rem; color: black"></i></a>
                         <a href="{{ path('update_figure', {id: figure.id}) }}" class="edit ms-2"><i
                                     class="bi bi-pencil-square"
                                     style="font-size: 1rem; color: black"></i></a>
@@ -42,9 +44,11 @@
 
             <div class="main-group-media-figure mt-3">
                 {% for photo in figure.photo %}
-                    <div>
-                        <img src="{{ asset('/uploads/' ~ photo.name) }}" alt="Photo" class="photo-figure">
-                    </div>
+                    {% if not loop.first %}
+                        <div>
+                            <img src="{{ asset('/uploads/' ~ photo.name) }}" alt="Photo" class="photo-figure">
+                        </div>
+                    {% endif %}
                 {% endfor %}
                 {% for video in figure.videos %}
                     <div>
@@ -57,9 +61,37 @@
             </div>
 
             <div class="phone-group-media text-center">
-                <button class="btn btn-primary">Voir médias</button>
+                <p>
+                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        Voir médias
+                    </button>
+                </p>
+                <div class="collapse" id="collapseExample">
+                    <div class="card card-body">
+                        {% for photo in figure.photo %}
+                            {% if not loop.first %}
+                                <div class="mb-3">
+                                    <img src="{{ asset('/uploads/' ~ photo.name) }}" alt="Photo"
+                                         class="photo-figure-phone">
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                        {% for video in figure.videos %}
+                            <div class="mb-3">
+                                <iframe
+                                        {# width="560" height="315" #}
+                                        src="{{ video.url }}" title="YouTube video player"
+                                        frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen class="video-figure-phone"
+                                >
+                                </iframe>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
-
 
             <div class="text-center mt-5 mb-5">
                 <p>{{ figure.description }}</p>
@@ -94,7 +126,7 @@
                     <div class="d-flex align-items-center mb-4">
                         <img src="{{ asset('/uploads/user/' ~ comment.photo) }}" alt=""
                              class="rounded-circle object-fit-cover me-3" width="80" height="80">
-                        <div class="border flex-grow-1 p-3">
+                        <div class="border rounded flex-grow-1 p-3">
                             <h1 class="fs-4 fw-bold mb-0">{{ comment.username }}</h1>
                             <p class="mb-0">{{ comment.content }}</p>
                             <p class="text-muted mb-0">{{ comment.createdAt|date("d/m/Y") }}</p>
