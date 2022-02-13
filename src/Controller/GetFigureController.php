@@ -41,7 +41,7 @@ class GetFigureController extends AbstractController
             return $this->redirect($request->getUri());
         }
 
-        $limit = 2;
+        $limit = 10;
         $page = $request->query->get('page', 1);
         $comments = $commentRepository->getPaginatedCommentsByFigureId($figure->getId(), $page, $limit);
 
@@ -57,7 +57,7 @@ class GetFigureController extends AbstractController
     public function getComments(Figure $figure, CommentRepository $commentRepository, Request $request): JsonResponse
     {
         // On définie le nombre d'éléments par page
-        $limit = 2;
+        $limit = 10;
         // On récupère le numéro de page
         $page = $request->query->get('page', 1);
         // On récupère les figures de la page
