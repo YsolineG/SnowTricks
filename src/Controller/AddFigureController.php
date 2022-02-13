@@ -19,14 +19,14 @@ class AddFigureController extends AbstractController
     public function index(Request $request, SluggerInterface $slugger): Response
     {
         $user = $this->getUser();
-        if($user) {
+        if ($user) {
             $figure = new Figure();
             $form = $this->createForm(FigureFormType::class, $figure);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $figure->setCreatedAt(new \DateTimeImmutable())
-                ->setSlug(strtolower($slugger->slug($figure->getName())));
+                    ->setSlug(strtolower($slugger->slug($figure->getName())));
                 // On récupère les photos transmises
                 $photos = $form->get('photos')->getData();
 
@@ -50,6 +50,10 @@ class AddFigureController extends AbstractController
                 $videosUrl = $form->get('videos')->getData();
 
                 foreach ($videosUrl as $url) {
+                    if (empty($url) === true) {
+                        continue;
+                    }
+
                     $videoEntity = new Video();
                     $url = str_replace('watch?v=', 'embed/', $url);
                     $videoEntity->setUrl($url);
@@ -78,7 +82,7 @@ class AddFigureController extends AbstractController
     }
 
     /**
-     *  @Route("/delete/{id}", name="delete")
+     * @Route("/delete/{id}", name="delete")
      */
     public function delete(int $id, Request $request): Response
     {
@@ -87,7 +91,7 @@ class AddFigureController extends AbstractController
         $figure = $entityManager->getRepository(Figure::class)->find($id);
         $user = $this->getUser();
         $userFigure = $figure->getUser();
-        if($user === $userFigure) {
+        if ($user === $userFigure) {
             $photos = $figure->getPhoto();
             if ($photos) {
                 foreach ($photos as $photo) {
@@ -97,6 +101,7 @@ class AddFigureController extends AbstractController
                     }
                 }
             }
+
             $entityManager->remove($figure);
             $entityManager->flush();
             $request->getSession()->getFlashBag()->add('success', 'La figure a bien été supprimée');
