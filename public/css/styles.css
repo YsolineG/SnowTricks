@@ -4,8 +4,9 @@
 }
 
 .photo-figure-phone {
-  max-width: 90%;
-  height: auto;
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
 }
 
 .video-figure-phone {
@@ -100,6 +101,7 @@ body {
   .photo-figure {
     width: 150px;
     height: 100px;
+    object-fit: cover;
   }
 
   .video-figure {
