@@ -109,8 +109,8 @@ class UpdateFigureController extends AbstractController
             $entityManager->flush();
 
             return new JsonResponse(['success' => 1]);
-        } else {
-            return new JsonResponse(['error' => 'Token invalide'], 400);
         }
+
+        return new JsonResponse(['error' => 'Token invalide'], 400);
     }
 }

@@ -108,8 +108,8 @@ class AddFigureController extends AbstractController
             $request->getSession()->getFlashBag()->add('success', 'La figure a bien été supprimée');
 
             return $this->redirectToRoute('home');
-        } else {
-            return new Response("Vous n'avez pas accès à cette page", Response::HTTP_UNAUTHORIZED);
         }
+
+        return new Response("Vous n'avez pas accès à cette page", Response::HTTP_UNAUTHORIZED);
     }
 }
