@@ -48,6 +48,10 @@ class UpdateFigureController extends AbstractController
                 $videosUrl = $form->get('videos')->getData();
 
                 foreach ($videosUrl as $url) {
+                    if (empty($url) === true) {
+                        continue;
+                    }
+                    
                     $videoEntity = new Video();
                     $url = str_replace('watch?v=', 'embed/', $url);
                     $videoEntity->setUrl($url);
