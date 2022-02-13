@@ -4,10 +4,10 @@ SnowTricks is a Symfony project for my Openclassrooms training.
 
 ## Technologies
 
--  PHP (Symfony framework)
--  [Twig](https://twig.symftwigony.com/) - Template engine for PHP
--  JavaScript
--  CSS (Bootstrap)
+-   PHP (Symfony framework)
+-   [Twig](https://twig.symftwigony.com/) - Template engine for PHP
+-   JavaScript
+-   CSS (Bootstrap)
 
 ## Installation
 
