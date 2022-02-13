@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
   let links = document.querySelectorAll("[data-delete-photo]");
 
   // On va boucler sur links
+  let link;
   for (link of links) {
     // On va écouter le clic
     link.addEventListener("click", function (e) {

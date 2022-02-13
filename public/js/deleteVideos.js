@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
   let links = document.querySelectorAll("[data-delete]");
 
+  let link;
   for (link of links) {
     link.addEventListener("click", function (e) {
       e.preventDefault();
