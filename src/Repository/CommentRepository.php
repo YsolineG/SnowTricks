@@ -46,6 +46,7 @@ class CommentRepository extends ServiceEntityRepository
             ->select('comment.id, comment.content, comment.createdAt, user.id as userId, user.username, user.photo')
             ->innerJoin(User::class, 'user', Join::WITH, 'comment.user = user.id')
             ->where('comment.figure = :figureId')
+            ->orderBy('comment.createdAt', 'DESC')
             ->setParameter('figureId', $figureId)
             ->setFirstResult(($page * $limit) - $limit)
             ->setMaxResults($limit);
