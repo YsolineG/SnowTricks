@@ -18,11 +18,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     let pDateElement = document.createElement("p");
 
                     divCommentElement.className = "d-flex align-items-center mb-4";
-                    imgElement.className = "rounded-circle object-fit-cover me-3"
+                    imgElement.className = "rounded-circle object-fit-cover me-3";
                     imgElement.width = 80;
                     imgElement.height = 80;
                     imgElement.src = "/uploads/user/" + comment.photo;
-                    divElement.className = "border flex-grow-1 p-3"
+                    divElement.className = "border flex-grow-1 p-3";
                     h1Element.className = "fs-4 fw-bold mb-0";
                     h1Element.innerText = comment.username;
                     pContentElement.className = "mb-0";
@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     let commentsContainer = document.querySelector("#comments-container");
                     commentsContainer.appendChild(divCommentElement);
                 }
-            })
-        })
-    })
+            });
+        });
+    });
 });
