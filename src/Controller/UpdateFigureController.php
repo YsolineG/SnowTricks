@@ -6,6 +6,7 @@ use App\Entity\Figure;
 use App\Entity\Photos;
 use App\Entity\Video;
 use App\Form\FigureFormType;
+use DateTimeImmutable;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,12 +20,12 @@ class UpdateFigureController extends AbstractController
     {
         $user = $this->getUser();
         $usertrick = $figure->getUser();
-        if($user === $usertrick){
+        if ($user === $usertrick) {
             $form = $this->createForm(FigureFormType::class, $figure);
             $form->handleRequest($request);
 
-            if($form->isSubmitted() && $form->isValid()) {
-                $figure->setUpdatedAt(new \DateTimeImmutable());
+            if ($form->isSubmitted() && $form->isValid()) {
+                $figure->setUpdatedAt(new DateTimeImmutable());
                 // On récupère les photos transmises
                 $photos = $form->get('photos')->getData();
 
@@ -51,7 +52,7 @@ class UpdateFigureController extends AbstractController
                     if (empty($url) === true) {
                         continue;
                     }
-                    
+
                     $videoEntity = new Video();
                     $url = str_replace('watch?v=', 'embed/', $url);
                     $videoEntity->setUrl($url);
@@ -78,7 +79,7 @@ class UpdateFigureController extends AbstractController
         $data = json_decode($request->getContent(), true);
 
         // On vérifie si le token est valide
-        if($this->isCsrfTokenValid('delete'.$photo->getId(), $data['_token'])) {
+        if ($this->isCsrfTokenValid('delete' . $photo->getId(), $data['_token'])) {
             // Onrécupère le nom de l'image
             $name = $photo->getName();
             // On supprime le fichier
@@ -102,14 +103,14 @@ class UpdateFigureController extends AbstractController
         $data = json_decode($request->getContent(), true);
         // On vérifie si le token est valide
 
-        if($this->isCsrfTokenValid('delete'.$video->getId(), $data['_token'])) {
+        if ($this->isCsrfTokenValid('delete' . $video->getId(), $data['_token'])) {
             $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->remove($video);
-        $entityManager->flush();
+            $entityManager->remove($video);
+            $entityManager->flush();
 
-        return new JsonResponse(['success' => 1]);
+            return new JsonResponse(['success' => 1]);
         } else {
             return new JsonResponse(['error' => 'Token invalide'], 400);
-        } 
+        }
     }
 }

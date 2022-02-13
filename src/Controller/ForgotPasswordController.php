@@ -5,8 +5,11 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\ResetPasswordType;
 use App\Repository\UserRepository;
-use Symfony\Component\HttpFoundation\Request;
+use Exception;
+use Swift_Mailer;
+use Swift_Message;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,15 +19,15 @@ use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 class ForgotPasswordController extends AbstractController
 {
     #[Route('/forgot/password', name: 'forgot_password')]
-    public function index(Request $request, UserRepository $userRepository, \Swift_Mailer $mailer, TokenGeneratorInterface $tokenGenerator): Response
+    public function index(Request $request, UserRepository $userRepository, Swift_Mailer $mailer, TokenGeneratorInterface $tokenGenerator): Response
     {
         $form = $this->createForm(ResetPasswordType::class);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
             $user = $userRepository->findOneBy(['username' => $data]);
-            if(!$user){
+            if (!$user) {
                 // On envoie un message flash
                 $this->addFlash('danger', 'Ce pseudo n\'existe pas');
                 return $this->redirectToRoute('login');
@@ -38,8 +41,8 @@ class ForgotPasswordController extends AbstractController
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($user);
                 $entityManager->flush();
-            } catch (\Exception $e) {
-                $this->addFlash('warning', 'Une erreur est survenue : '. $e->getMessage());
+            } catch (Exception $e) {
+                $this->addFlash('warning', 'Une erreur est survenue : ' . $e->getMessage());
                 return $this->redirectToRoute('login');
             }
 
@@ -52,7 +55,7 @@ class ForgotPasswordController extends AbstractController
 <p>Veuillez cliquer sur le lien suivant : <a href="${url}">${url}</a></p>
 HTML;
 
-            $message = (new \Swift_Message('Mot de passe oublié'))
+            $message = (new Swift_Message('Mot de passe oublié'))
                 ->setFrom('no-reply@swon-tricks.com')
                 ->setTo($user->getEmail())
                 ->setBody($emailContent, 'text/html');
@@ -73,11 +76,11 @@ HTML;
     public function resetPassword($token, Request $request, UserPasswordHasherInterface $userPasswordHasherInterface)
     {
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['reset_token' => $token]);
-        if(!$user) {
+        if (!$user) {
             $this->addFlash('danger', 'Token inconnu');
             return $this->redirectToRoute('login');
         }
-        if($request->isMethod('POST')) {
+        if ($request->isMethod('POST')) {
             $user->setResetToken(null);
 
             $user->setPassword(
@@ -92,10 +95,10 @@ HTML;
 
             $this->addFlash('message', 'Mot de passe modifié avec succès');
             return $this->redirectToRoute('login');
-        } else {
-            return $this->render('forgot_password\reset_password.html.twig', [
-                'token' => $token
-            ]);
         }
+
+        return $this->render('forgot_password\reset_password.html.twig', [
+            'token' => $token
+        ]);
     }
 }

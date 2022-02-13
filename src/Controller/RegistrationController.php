@@ -6,11 +6,11 @@ use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Swift_Mailer;
+use Swift_Message;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
@@ -25,7 +25,7 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasherInterface, \Swift_Mailer $mailer): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasherInterface, Swift_Mailer $mailer): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -59,7 +59,7 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             // On crée le message
-            $message = (new \Swift_Message('Activation de votre compte'))
+            $message = (new Swift_Message('Activation de votre compte'))
                 // On attribue l'expéditeur
                 ->setFrom('no-reply@swon-tricks.com')
                 // On attribue le destinataire
@@ -68,8 +68,7 @@ class RegistrationController extends AbstractController
                 ->setBody(
                     $this->renderView('emails/activation.html.twig', ['token' => $user->getActiviationToken()]),
                     'text/html'
-                )
-            ;
+                );
 
             // On envoie l'email
             $mailer->send($message);
@@ -118,7 +117,7 @@ class RegistrationController extends AbstractController
         // On vérifie si un utilisateur a ce token
         $user = $userRepository->findOneBy(['activiation_token' => $token]);
 
-        if(!$user){
+        if (!$user) {
             throw $this->createNotFoundException('Cet utilisateur n\'existe pas');
         }
 

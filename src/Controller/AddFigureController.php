@@ -4,9 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Figure;
 use App\Entity\Photos;
-use App\Entity\Video;
 use App\Entity\User;
+use App\Entity\Video;
 use App\Form\FigureFormType;
+use DateTimeImmutable;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,7 +26,7 @@ class AddFigureController extends AbstractController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $figure->setCreatedAt(new \DateTimeImmutable())
+                $figure->setCreatedAt(new DateTimeImmutable())
                     ->setSlug(strtolower($slugger->slug($figure->getName())));
                 // On récupère les photos transmises
                 $photos = $form->get('photos')->getData();
@@ -75,9 +76,9 @@ class AddFigureController extends AbstractController
             return $this->render('add_figure/index.html.twig', [
                 'figureForm' => $form->createView(),
             ]);
-        } else {
-            return new Response("Vous n'avez pas accès à cette page", 400);
         }
+
+        return new Response("Vous n'avez pas accès à cette page", 400);
 
     }
 

@@ -20,8 +20,7 @@ class ProfileFormType extends AbstractType
             ->add('isVerified')
             ->add('photo', FileType::class, [
                 'mapped' => false
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
