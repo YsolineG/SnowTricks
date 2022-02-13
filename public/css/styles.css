@@ -43,11 +43,22 @@ body {
 }
 
 .form-control {
-    margin: 2em 0 2em 0;
+    margin-bottom: 2em;
 }
 
 .main-group-media-figure {
     display: none;
+}
+
+#list-video {
+    list-style: none;
+    padding: 0;
+}
+
+.custom-container {
+    margin: 1em auto;
+    padding: 0 1em;
+    max-width: 800px;
 }
 
 @media screen and (min-width: 577px) {
