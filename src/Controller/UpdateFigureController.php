@@ -67,10 +67,9 @@ class UpdateFigureController extends AbstractController
                 'figureForm' => $form->createView(),
                 'figure' => $figure
             ]);
-        } 
-        else {
-            return new Response("Vous n'avez pas accès à cette page", 400);
         }
+
+        return new Response("Vous n'avez pas accès à cette page", 400);
     }
 
     #[Route('/delete/photo/{id}', name: 'delete_photo', methods: 'DELETE')]
@@ -92,9 +91,9 @@ class UpdateFigureController extends AbstractController
 
             // On répond en json
             return new JsonResponse(['success' => 1]);
-        } else {
-            return new JsonResponse(['error' => 'Token invalide'], 400);
         }
+
+        return new JsonResponse(['error' => 'Token invalide'], 400);
     }
 
     #[Route('/delete/video/{id}', name: 'delete_video', methods: 'DELETE')]
