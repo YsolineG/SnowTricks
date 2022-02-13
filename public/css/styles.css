@@ -1,113 +1,109 @@
 .group-media-figure {
-    display: flex;
-    justify-content: space-around;
+  display: flex;
+  justify-content: space-around;
 }
 
 .photo-figure-phone {
-    max-width: 90%;
-    height: auto;
+  max-width: 90%;
+  height: auto;
 }
 
 .video-figure-phone {
-    max-width: 100%;
-    height: auto;
+  max-width: 100%;
+  height: auto;
 }
 
 /*
 * Texte sur l'image
 */
 .container-photo img {
-    width: 100%;
-    object-fit: cover;
+  width: 100%;
+  object-fit: cover;
 }
 
 #figures-container {
-    margin: 2em;
+  margin: 2em;
 }
 
 #nav-phone {
-    z-index: 100;
-    display: flex;
+  z-index: 100;
+  display: flex;
 }
 
 #main-navigation {
-    display: none;
+  display: none;
 }
 
 body {
-    padding-bottom: 53px;
+  padding-bottom: 53px;
 }
 
 .object-fit-cover {
-    object-fit: cover;
+  object-fit: cover;
 }
 
 .form-control {
-    margin-bottom: 2em;
+  margin-bottom: 2em;
 }
 
 .main-group-media-figure {
-    display: none;
+  display: none;
 }
 
 #list-video {
-    list-style: none;
-    padding: 0;
+  list-style: none;
+  padding: 0;
 }
 
 .custom-container {
-    margin: 1em auto;
-    padding: 0 1em;
-    max-width: 800px;
+  margin: 1em auto;
+  padding: 0 1em;
+  max-width: 800px;
 }
 
 @media screen and (min-width: 577px) {
-    #nav-phone {
-        display: none;
-    }
+  #nav-phone {
+    display: none;
+  }
 
-    #main-navigation {
-        display: block;
-    }
+  #main-navigation {
+    display: block;
+  }
 
-    body {
-        padding-bottom: 0;
-    }
+  body {
+    padding-bottom: 0;
+  }
 
-    .nav-item {
-        padding: 0 1em 0 1em
-    }
+  .nav-item {
+    padding: 0 1em 0 1em
+  }
 
-    .card-img-top {
-        width: 100%;
-        height: 15vw;
-        object-fit: cover;
-    }
+  .card-img-top {
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+  }
 
-    .phone-group-media {
-        display: none;
-    }
+  .phone-group-media {
+    display: none;
+  }
 
-    .main-group-media-figure {
-        display: block;
-    }
+  .main-group-media-figure {
+    display: flex;
+    justify-content: space-around;
+  }
 
-    .main-group-media-figure {
-        display: flex;
-        justify-content: space-around;
-    }
+  .path-registration {
+    display: none;
+  }
 
-    .path-registration {
-        display: none;
-    }
+  .photo-figure {
+    width: 150px;
+    height: 100px;
+  }
 
-    .photo-figure {
-        width: 150px;
-        height: 100px;
-    }
-
-    .video-figure {
-        width: 150px;
-        height: 100px;
-    }
+  .video-figure {
+    width: 150px;
+    height: 100px;
+  }
 }
