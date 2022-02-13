@@ -10,7 +10,7 @@
             {% if figure.photo|length > 0 %}
                 <div class="border rounded position-absolute top-0 end-0 bg-white py-1 px-3 mt-2 me-2">
                     <a href="{{ path('delete_photo', {id: figure.photo[0].id}) }}"><i class="bi bi-trash-fill"
-                                                                                      style="font-size: 1rem; color: black"></i></a>
+                                                                                      style="font-size: 1rem;"></i></a>
                 </div>
             {% endif %}
         </div>
@@ -59,7 +59,7 @@
                                 <div class="border rounded position-absolute top-0 end-0 bg-white py-1 px-2 mt-2 me-4">
                                     <a href="{{ path('delete_photo', {id: photo.id}) }}" data-delete-photo
                                        data-token="{{ csrf_token('delete' ~ photo.id) }}">
-                                        <i class="bi bi-trash-fill" style="font-size: 1rem; color: black"></i>
+                                        <i class="bi bi-trash-fill" style="font-size: 1rem;"></i>
                                     </a>
                                 </div>
                             </div>
@@ -77,7 +77,7 @@
                             <div class="border rounded position-absolute top-0 end-0 bg-white py-1 px-2 mt-2 me-4">
                                 <a href="{{ path('delete_video', {id: video.id}) }}" data-delete
                                    data-token="{{ csrf_token('delete' ~ video.id) }}"><i class="bi bi-trash-fill"
-                                                                                         style="font-size: 1rem; color: black"></i></a>
+                                                                                         style="font-size: 1rem;"></i></a>
                             </div>
                         </div>
                     {% endfor %}
