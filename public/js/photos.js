@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
           )
           .then((data) => {
             if (data.success) {
-              this.parentElement.remove();
+              this.parentElement.parentElement.remove();
             } else {
               alert(data.error);
             }
