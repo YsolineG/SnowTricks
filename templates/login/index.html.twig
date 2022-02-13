@@ -6,23 +6,23 @@
     <h1 class="text-center mt-5 mb-5">Connexion</h1>
 
     {% if error %}
-        <div class="mb-3 alert alert-danger text-center mx-auto" role="alert" style="width: 500px;">
+        <div class="mb-3 alert alert-danger text-center mx-auto" role="alert">
             {{ error.messageKey|trans(error.messageData, 'security') }}
         </div>
     {% endif %}
 
     {% for flashMessage in app.session.flashBag.get('message') %}
-        <div class="mb-3 alert alert-success text-center mx-auto" role="alert" style="width: 500px;">
+        <div class="mb-3 alert alert-success text-center mx-auto" role="alert">
             {{ flashMessage }}
         </div>
     {% endfor %}
     {% for flashMessage in app.session.flashBag.get('danger') %}
-        <div class="mb-3 alert alert-danger text-center mx-auto" role="alert" style="width: 500px;">
+        <div class="mb-3 alert alert-danger text-center mx-auto" role="alert">
             {{ flashMessage }}
         </div>
     {% endfor %}
     {% for flashMessage in app.session.flashBag.get('warning') %}
-        <div class="mb-3 alert alert-warning text-center mx-auto" role="alert" style="width: 500px;">
+        <div class="mb-3 alert alert-warning text-center mx-auto" role="alert">
             {{ flashMessage }}
         </div>
     {% endfor %}

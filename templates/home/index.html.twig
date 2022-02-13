@@ -11,7 +11,7 @@
     </div>
 
     {% for flashMessage in app.session.flashBag.get('success') %}
-        <div class="mb-3 alert alert-success text-center mx-auto" role="alert" style="width: 500px;">
+        <div class="mb-3 alert alert-success text-center mx-auto" role="alert">
             {{ flashMessage }}
         </div>
     {% endfor %}

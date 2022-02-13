@@ -7,7 +7,7 @@
         <div class="custom-container mt-5">
 
             {% for flashMessage in app.session.flashBag.get('figure-success') %}
-                <div class="mb-3 alert alert-success text-center mx-auto" role="alert" style="width: 500px;">
+                <div class="mb-3 alert alert-success text-center mx-auto" role="alert">
                     {{ flashMessage }}
                 </div>
             {% endfor %}
@@ -29,7 +29,7 @@
             </div>
 
             <div class="main-group-media-figure justify-content-center mt-3">
-                {% for photo in figure.photo %}
+                {% for photo in figure.photos %}
                     {% if not loop.first %}
                         <div class="mx-2">
                             <img src="{{ asset('/uploads/' ~ photo.name) }}" alt="Photo" class="photo-figure">
@@ -56,7 +56,7 @@
 
                 <div class="collapse" id="collapseExample">
                     <div class="card card-body">
-                        {% for photo in figure.photo %}
+                        {% for photo in figure.photos %}
                             {% if not loop.first %}
                                 <div class="mb-3">
                                     <img src="{{ asset('/uploads/' ~ photo.name) }}" alt="Photo"
