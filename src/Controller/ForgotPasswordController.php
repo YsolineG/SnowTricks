@@ -46,15 +46,16 @@ class ForgotPasswordController extends AbstractController
             // On génère l'URL de réinitialisation de mot de passe
             $url = $this->generateUrl('reset_password', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
 
+            $emailContent = <<<HTML
+<p>Bonjour,</p>
+<p>Une demande de réinitialisation de mot de passe a été effectuée pour le site Snow-Tricks.</p>
+<p>Veuillez cliquer sur le lien suivant : <a href="${url}">${url}</a></p>
+HTML;
+
             $message = (new \Swift_Message('Mot de passe oublié'))
                 ->setFrom('no-reply@swon-tricks.com')
                 ->setTo($user->getEmail())
-                ->setBody(
-                    "<p>Bonjour,</p><p>Une demande de réinitialisation de mot de passe a été effectuée pour le site Snow-Tricks.
-                    Veuillez cliquer sur le lien suivant : " . $url . '</p>',
-                    'text/html'
-                )
-            ;
+                ->setBody($emailContent, 'text/html');
             $mailer->send($message);
 
             $this->addFlash('message', 'Un email de réinitialisation de mot de passe vous a été envoyé');
