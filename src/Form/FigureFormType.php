@@ -21,9 +21,6 @@ class FigureFormType extends AbstractType
         $builder
             ->add('name', null, [
                 'label' => false,
-                'attr' => [
-                    'style' => 'width: 500px'
-                ]
             ])
             ->add('description', TextareaType::class, [
                 'label' => false,
@@ -46,7 +43,12 @@ class FigureFormType extends AbstractType
                 'prototype' => true,
                 'mapped' => false,
                 'required' => false,
-                'label' => false
+                'label' => false,
+                'entry_options' => [
+                    'attr' => [
+                        'placeholder' => 'URL de la vidéo'
+                    ]
+                ]
             ])
         ;
     }
