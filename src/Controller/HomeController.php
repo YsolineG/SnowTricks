@@ -20,7 +20,7 @@ class HomeController extends AbstractController
     public function index(FigureRepository $figureRepository, Request $request): Response
     {
         // On définie le nombre d'éléments par page
-        $limit = 2;
+        $limit = 10;
         // On récupère le numéro de page
         $page = $request->query->get('page', 1);
         // On récupère les figures de la page
@@ -35,7 +35,7 @@ class HomeController extends AbstractController
     public function getFigures(FigureRepository $figureRepository, Request $request): JsonResponse
     {
         // On définie le nombre d'éléments par page
-        $limit = 2;
+        $limit = 10;
         // On récupère le numéro de page
         $page = $request->query->get('page', 1);
         // On récupère les figures de la page
