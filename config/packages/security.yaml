@@ -23,7 +23,7 @@ security:
             logout:
                 path: app_logout
                 # where to redirect after logout
-                target: /home
+                target: /
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -35,7 +35,7 @@ security:
                 # "login" is the name of the route created previously
                 login_path: login
                 check_path: login
-                default_target_path: /home
+                default_target_path: /
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
