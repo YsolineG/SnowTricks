@@ -3,21 +3,7 @@
 {% block title %}Mot de passe oublié{% endblock %}
 
 {% block body %}
-    <style>
-        .example-wrapper {
-            margin: 1em auto;
-            max-width: 800px;
-            width: 95%;
-            font: 18px/1.5 sans-serif;
-        }
-
-        .example-wrapper code {
-            background: #F5F5F5;
-            padding: 2px 6px;
-        }
-    </style>
-
-    <h1 class="text-center mt-3">Mot de passe oublié</h1>
+    <h1 class="text-center mt-5 mb-5">Mot de passe oublié</h1>
 
     {% for flashMessage in app.session.flashBag.get('danger') %}
         <div class="mb-3 alert alert-danger text-center mx-auto" role="alert" style="width: 500px;">
@@ -30,7 +16,7 @@
         </div>
     {% endfor %}
 
-    <div class="example-wrapper border rounded p-5 text-center">
+    <div class="custom-container border rounded mx-3 p-5 mb-5 mx-md-auto text-center">
         {{ form_start(usernameForm) }}
         {{ form_row(usernameForm.username, {
             label: "Nom d'utilisateur"

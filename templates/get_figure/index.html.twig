@@ -3,22 +3,8 @@
 {% block title %}{{ figure.name }}{% endblock %}
 
 {% block body %}
-    <style>
-        .example-wrapper {
-            margin: 1em auto;
-            max-width: 800px;
-            width: 95%;
-            font: 18px/1.5 sans-serif;
-        }
-
-        .example-wrapper code {
-            background: #F5F5F5;
-            padding: 2px 6px;
-        }
-    </style>
-
     <div>
-        <div class="example-wrapper mt-5">
+        <div class="custom-container mt-5">
 
             {% for flashMessage in app.session.flashBag.get('figure-success') %}
                 <div class="mb-3 alert alert-success text-center mx-auto" role="alert" style="width: 500px;">
@@ -42,16 +28,16 @@
                 {% endif %}
             </div>
 
-            <div class="main-group-media-figure mt-3">
+            <div class="main-group-media-figure justify-content-center mt-3">
                 {% for photo in figure.photo %}
                     {% if not loop.first %}
-                        <div>
+                        <div class="mx-2">
                             <img src="{{ asset('/uploads/' ~ photo.name) }}" alt="Photo" class="photo-figure">
                         </div>
                     {% endif %}
                 {% endfor %}
                 {% for video in figure.videos %}
-                    <div>
+                    <div class="mx-2">
                         <iframe width="560" height="315" src="{{ video.url }}" title="YouTube video player"
                                 frameborder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -67,6 +53,7 @@
                         Voir médias
                     </button>
                 </p>
+
                 <div class="collapse" id="collapseExample">
                     <div class="card card-body">
                         {% for photo in figure.photo %}
