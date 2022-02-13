@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\FigureRepository;
-use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -53,7 +52,7 @@ class Figure
      * @Ignore()
      * @var Photos[]
      */
-    private $photo;
+    private $photos;
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="figure", cascade={"persist", "remove"})
@@ -85,7 +84,7 @@ class Figure
 
     public function __construct()
     {
-        $this->photo = new ArrayCollection();
+        $this->photos = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->videos = new ArrayCollection();
     }
@@ -164,15 +163,15 @@ class Figure
     /**
      * @return Collection|Photos[]
      */
-    public function getPhoto(): Collection
+    public function getPhotos(): Collection
     {
-        return $this->photo;
+        return $this->photos;
     }
 
     public function addPhoto(Photos $photo): self
     {
-        if (!$this->photo->contains($photo)) {
-            $this->photo[] = $photo;
+        if (!$this->photos->contains($photo)) {
+            $this->photos[] = $photo;
             $photo->addFigure($this);
         }
 
@@ -181,7 +180,7 @@ class Figure
 
     public function removePhoto(Photos $photo): self
     {
-        if ($this->photo->removeElement($photo)) {
+        if ($this->photos->removeElement($photo)) {
             $photo->removeFigure($this);
         }
 
@@ -230,24 +229,24 @@ class Figure
         return $this;
     }
 
-    public function getCreatedAt(): ?DateTimeImmutable
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTimeImmutable $createdAt): self
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?DateTimeImmutable
+    public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(DateTimeImmutable $updatedAt): self
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
@@ -275,10 +274,10 @@ class Figure
     {
         $package = new Package(new EmptyVersionStrategy());
 
-        if (count($this->photo) === 0) {
+        if (count($this->photos) === 0) {
             return $package->getUrl('/uploads/snow_tricks_01.jpg');
         }
 
-        return $this->photo[0]->getUrl();
+        return $this->photos[0]->getUrl();
     }
 }

@@ -7,16 +7,16 @@
         <div class="container-photo position-relative mb-3">
             <img src="{{ figure.getMainPhotoUrl }}" class="img-fluid" alt="snow-tricks">
             <h1 class="text-photo position-absolute top-50 start-50 translate-middle text-center">{{ figure.name }}</h1>
-            {% if figure.photo|length > 0 %}
+            {% if figure.photos|length > 0 %}
                 <div class="border rounded position-absolute top-0 end-0 bg-white py-1 px-3 mt-2 me-2">
-                    <a href="{{ path('delete_photo', {id: figure.photo[0].id}) }}"><i class="bi bi-trash-fill"
+                    <a href="{{ path('delete_photo', {id: figure.photos[0].id}) }}"><i class="bi bi-trash-fill"
                                                                                       style="font-size: 1rem;"></i></a>
                 </div>
             {% endif %}
         </div>
 
         <div class="main-group-media-figure justify-content-center mt-3">
-            {% for photo in figure.photo %}
+            {% for photo in figure.photos %}
                 {% if not loop.first %}
                     <div class="d-flex flex-column mx-2">
                         <img src="{{ asset('/uploads/' ~ photo.name) }}" alt="Photo" class="photo-figure">
@@ -51,7 +51,7 @@
             </p>
             <div class="collapse" id="collapseExample">
                 <div class="card card-body">
-                    {% for photo in figure.photo %}
+                    {% for photo in figure.photos %}
                         {% if not loop.first %}
                             <div class="container-photo position-relative mb-3">
                                 <img src="{{ asset('/uploads/' ~ photo.name) }}" alt="Photo"
