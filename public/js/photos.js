@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   // Gestion des boutons supprimer
   let links = document.querySelectorAll("[data-delete-photo]");
-  console.log(links);
 
   // On va boucler sur links
   for (link of links) {
