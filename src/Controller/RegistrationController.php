@@ -95,6 +95,6 @@ class RegistrationController extends AbstractController
 
         // On envoie un message flash
         $request->getSession()->getFlashBag()->add('success', 'Votre compte est activé');
-        return $this->redirectToRoute('home');
+        return $this->redirectToRoute('login');
     }
 }
