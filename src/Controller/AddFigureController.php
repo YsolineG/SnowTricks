@@ -11,6 +11,7 @@ use DateTimeImmutable;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
@@ -87,13 +88,18 @@ class AddFigureController extends AbstractController
      */
     public function delete(int $id, Request $request): Response
     {
-
         $entityManager = $this->getDoctrine()->getManager();
+        /** @var Figure $figure */
         $figure = $entityManager->getRepository(Figure::class)->find($id);
+
+        if(!$figure) {
+            throw new NotFoundHttpException();
+        }
+
         $user = $this->getUser();
         $userFigure = $figure->getUser();
         if ($user === $userFigure) {
-            $photos = $figure->getPhoto();
+            $photos = $figure->getPhotos();
             if ($photos) {
                 foreach ($photos as $photo) {
                     $name = $this->getParameter('photo_directory') . '/' . $photo->getName();

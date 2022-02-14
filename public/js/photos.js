@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", function () {
   // On va boucler sur links
   let link;
   for (link of links) {
+    const reload = link.dataset.reload;
+
     // On va écouter le clic
     link.addEventListener("click", function (e) {
       // On empèche la navigation
@@ -27,6 +29,10 @@ document.addEventListener("DOMContentLoaded", function () {
           )
           .then((data) => {
             if (data.success) {
+              if(reload !== undefined) {
+                location.reload();
+                return;
+              }
               this.parentElement.parentElement.remove();
             } else {
               alert(data.error);

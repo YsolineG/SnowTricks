@@ -9,8 +9,13 @@
             <h1 class="text-photo position-absolute top-50 start-50 translate-middle text-center">{{ figure.name }}</h1>
             {% if figure.photos|length > 0 %}
                 <div class="border rounded position-absolute top-0 end-0 bg-white py-1 px-3 mt-2 me-2">
-                    <a href="{{ path('delete_photo', {id: figure.photos[0].id}) }}"><i class="bi bi-trash-fill"
-                                                                                      style="font-size: 1rem;"></i></a>
+                    <a href="{{ path('delete_photo', {id: figure.photos[0].id}) }}"
+                       data-token="{{ csrf_token('delete' ~ figure.photos[0].id) }}"
+                       data-reload
+                       data-delete-photo
+                    >
+                        <i class="bi bi-trash-fill" style="font-size: 1rem;"></i>
+                    </a>
                 </div>
             {% endif %}
         </div>

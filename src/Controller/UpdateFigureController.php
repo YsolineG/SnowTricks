@@ -74,9 +74,9 @@ class UpdateFigureController extends AbstractController
     }
 
     #[Route('/delete/photo/{id}', name: 'delete_photo', methods: 'DELETE')]
-    public function deletePhoto(Photos $photo, Request $request)
+    public function deletePhoto(Photos $photo, Request $request): JsonResponse
     {
-        $data = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
 
         // On vérifie si le token est valide
         if ($this->isCsrfTokenValid('delete' . $photo->getId(), $data['_token'])) {
