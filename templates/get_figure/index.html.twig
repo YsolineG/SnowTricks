@@ -3,130 +3,184 @@
 {% block title %}{{ figure.name }}{% endblock %}
 
 {% block body %}
-    <div>
-        <div class="custom-container mt-5">
+    <div class="custom-container">
 
-            {% for flashMessage in app.session.flashBag.get('figure-success') %}
-                <div class="mb-3 alert alert-success text-center mx-auto" role="alert">
-                    {{ flashMessage }}
+        {% for flashMessage in app.session.flashBag.get('figure-success') %}
+            <div class="mb-3 alert alert-success text-center mx-auto" role="alert">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+
+        <div class="container-photo position-relative mb-3">
+            <img src="{{ figure.getMainPhotoUrl }}" class="img-fluid rounded" alt="snow-tricks">
+            <h1 class="text-photo text-center position-absolute top-50 start-50 translate-middle">{{ figure.name }}</h1>
+            {% if app.user and app.user.id == figure.user.id %}
+                <div class="border rounded position-absolute top-0 end-0 bg-white py-1 px-3 mt-2 me-2">
+                    <a href="{{ path('delete', {id: figure.id}) }}" class="delete me-2"
+                       onclick="return confirm('Etes vous sure de vouloir supprimer cette figure ?')"><i
+                                class="bi bi-trash-fill"
+                                style="font-size: 1rem;"></i></a>
+                    <a href="{{ path('update_figure', {id: figure.id}) }}" class="edit ms-2"><i
+                                class="bi bi-pencil-square"
+                                style="font-size: 1rem;"></i></a>
                 </div>
-            {% endfor %}
+            {% endif %}
+        </div>
 
-            <div class="container-photo position-relative mb-3">
-                <img src="{{ figure.getMainPhotoUrl }}" class="img-fluid" alt="snow-tricks">
-                <h1 class="text-photo text-center position-absolute top-50 start-50 translate-middle">{{ figure.name }}</h1>
-                {% if app.user and app.user.id == figure.user.id %}
-                    <div class="border rounded position-absolute top-0 end-0 bg-white py-1 px-3 mt-2 me-2">
-                        <a href="{{ path('delete', {id: figure.id}) }}" class="delete me-2"
-                           onclick="return confirm('Etes vous sure de vouloir supprimer cette figure ?')"><i
-                                    class="bi bi-trash-fill"
-                                    style="font-size: 1rem;"></i></a>
-                        <a href="{{ path('update_figure', {id: figure.id}) }}" class="edit ms-2"><i
-                                    class="bi bi-pencil-square"
-                                    style="font-size: 1rem;"></i></a>
-                    </div>
-                {% endif %}
-            </div>
-
-            <div class="main-group-media-figure justify-content-center mt-3">
-                {% for photo in figure.photos %}
-                    {% if not loop.first %}
-                        <div class="mx-2">
-                            <img src="{{ asset('/uploads/' ~ photo.name) }}" alt="Photo" class="photo-figure">
-                        </div>
-                    {% endif %}
-                {% endfor %}
-                {% for video in figure.videos %}
-                    <div class="mx-2">
-                        <iframe width="560" height="315" src="{{ video.url }}" title="YouTube video player"
-                                frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen class="video-figure"></iframe>
-                    </div>
-                {% endfor %}
-            </div>
-
-            <div class="phone-group-media text-center">
-                <p>
-                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                        Voir médias
-                    </button>
-                </p>
-
-                <div class="collapse" id="collapseExample">
-                    <div class="card card-body">
+        <div class="main-group-media-figure row">
+            <div class="col">
+                <div id="carouselPhotos" class="carousel slide rounded overflow-hidden"
+                     data-bs-ride="carousel">
+                    <div class="carousel-inner">
                         {% for photo in figure.photos %}
                             {% if not loop.first %}
-                                <div class="mb-3">
-                                    <img src="{{ asset('/uploads/' ~ photo.name) }}" alt="Photo"
-                                         class="photo-figure-phone">
+                                <div class="carousel-item {% if loop.index == 2 %}active{% endif %}">
+                                    <img src="{{ asset('/uploads/' ~ photo.name) }}" class="d-block w-100 object-fit-cover" style="height: 250px;">
                                 </div>
                             {% endif %}
                         {% endfor %}
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselPhotos"
+                            data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselPhotos"
+                            data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+            <div class="col">
+                <div id="carouselVideos" class="carousel slide rounded overflow-hidden"
+                     data-bs-ride="carousel">
+                    <div class="carousel-inner">
                         {% for video in figure.videos %}
-                            <div class="mb-3">
-                                <iframe
-                                        {# width="560" height="315" #}
-                                        src="{{ video.url }}" title="YouTube video player"
+                            <div class="carousel-item {% if loop.index == 1 %}active{% endif %}">
+                                <iframe src="{{ video.url }}" title="YouTube video player"
                                         frameborder="0"
                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                        allowfullscreen class="video-figure-phone"
-                                >
-                                </iframe>
+                                        allowfullscreen class="d-block w-100" style="height: 250px;"></iframe>
                             </div>
                         {% endfor %}
                     </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselVideos"
+                            data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselVideos"
+                            data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
                 </div>
             </div>
+        </div>
 
-            <div class="text-center mt-5 mb-5">
-                <p>{{ figure.description }}</p>
-
-                <span class="badge bg-primary">{{ figure.figureGroup }}</span>
-                <span class="badge bg-primary">Créé le {{ figure.createdAt|date("d/m/Y") }}</span>
-                <span class="badge bg-primary">Par {{ figure.user.username }}</span>
-                {% if figure.updatedAt %}
-                    <span class="badge bg-primary">Modifié le {{ figure.updatedAt|date("d/m/Y") }}</span>
-                {% endif %}
+        <div class="phone-group-media text-center mt-4">
+            <p>
+                <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    Voir médias
+                </button>
+            </p>
+            <div class="collapse" id="collapseExample">
+                <div id="carouselPhotos" class="carousel slide rounded overflow-hidden"
+                     data-bs-ride="carousel">
+                    <div class="carousel-inner mb-2">
+                        {% for photo in figure.photos %}
+                            {% if not loop.first %}
+                                <div class="carousel-item {% if loop.index == 2 %}active{% endif %}">
+                                    <img src="{{ asset('/uploads/' ~ photo.name) }}" class="d-block w-100 object-fit-cover" style="height: 250px;">
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselPhotos"
+                            data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselPhotos"
+                            data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+                <div id="carouselVideos" class="carousel slide rounded overflow-hidden"
+                     data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        {% for video in figure.videos %}
+                            <div class="carousel-item {% if loop.index == 1 %}active{% endif %}">
+                                <iframe src="{{ video.url }}" title="YouTube video player"
+                                        frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen class="d-block w-100" style="height: 250px;"></iframe>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselVideos"
+                            data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselVideos"
+                            data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
             </div>
+        </div>
 
+        <div class="text-center mt-5 mb-5">
+            <p>{{ figure.description }}</p>
+
+            <span class="badge bg-primary">{{ figure.figureGroup }}</span>
+            <span class="badge bg-primary">Créé le {{ figure.createdAt|date("d/m/Y") }}</span>
+            <span class="badge bg-primary">Par {{ figure.user.username }}</span>
+            {% if figure.updatedAt %}
+                <span class="badge bg-primary">Modifié le {{ figure.updatedAt|date("d/m/Y") }}</span>
+            {% endif %}
+        </div>
+
+        <hr>
+        {% for flashMessage in app.session.flashBag.get('success') %}
+            <div class="alert alert-success text-center" role="alert">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            {{ form_start(commentForm) }}
+            {{ form_row(commentForm.content) }}
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Ajouter un commentaire</button>
+            </div>
+            {{ form_end(commentForm) }}
             <hr>
-            {% for flashMessage in app.session.flashBag.get('success') %}
-                <div class="alert alert-success text-center" role="alert">
-                    {{ flashMessage }}
+        {% endif %}
+
+        <div id="comments-container">
+            {% for comment in comments %}
+                <div class="d-flex align-items-center mb-4">
+                    <img src="{{ asset('/uploads/user/' ~ comment.photo) }}" alt=""
+                         class="rounded-circle object-fit-cover me-3" width="80" height="80">
+                    <div class="border rounded flex-grow-1 p-3">
+                        <h1 class="fs-4 fw-bold mb-0">{{ comment.username }}</h1>
+                        <p class="mb-0">{{ comment.content }}</p>
+                        <p class="text-muted mb-0">{{ comment.createdAt|date("d/m/Y") }}</p>
+                    </div>
                 </div>
             {% endfor %}
+        </div>
 
-            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                {{ form_start(commentForm) }}
-                {{ form_row(commentForm.content) }}
-                <div class="text-center">
-                    <button type="submit" class="btn btn-primary">Ajouter un commentaire</button>
-                </div>
-                {{ form_end(commentForm) }}
-                <hr>
-            {% endif %}
-
-            <div id="comments-container">
-                {% for comment in comments %}
-                    <div class="d-flex align-items-center mb-4">
-                        <img src="{{ asset('/uploads/user/' ~ comment.photo) }}" alt=""
-                             class="rounded-circle object-fit-cover me-3" width="80" height="80">
-                        <div class="border rounded flex-grow-1 p-3">
-                            <h1 class="fs-4 fw-bold mb-0">{{ comment.username }}</h1>
-                            <p class="mb-0">{{ comment.content }}</p>
-                            <p class="text-muted mb-0">{{ comment.createdAt|date("d/m/Y") }}</p>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-
-            <div class="text-center">
-                <a href="{{ path('api_figure_comments', {id: figure.id}) }}" class="btn btn-primary" role="button"
-                   id="load-more-comments"
-                >Commentaires suivants</a>
-            </div>
+        <div class="text-center">
+            <a href="{{ path('api_figure_comments', {id: figure.id}) }}" class="btn btn-primary" role="button"
+               id="load-more-comments"
+            >Commentaires suivants</a>
         </div>
     </div>
 {% endblock %}
