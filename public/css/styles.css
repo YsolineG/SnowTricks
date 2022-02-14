@@ -23,6 +23,14 @@
   max-height: 400px;
 }
 
+/*
+* Texte sur l'image
+*/
+.container-photo-home img {
+  width: 100%;
+  object-fit: cover;
+}
+
 #figures-container {
   margin: 2em;
 }
@@ -38,6 +46,7 @@
 
 #main-navigation {
   display: none;
+  z-index: 100;
 }
 
 body {
@@ -112,9 +121,5 @@ body {
   .video-figure {
     width: 150px;
     height: 100px;
-  }
-
-  #figures-container .card {
-    min-width: 300px;
   }
 }
