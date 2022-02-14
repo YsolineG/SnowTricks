@@ -69,7 +69,7 @@ class RegistrationController extends AbstractController
             // On envoie l'email
             $mailer->send($message);
 
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('login');
         }
 
         return $this->render('registration/register.html.twig', [
