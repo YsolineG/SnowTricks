@@ -24,18 +24,21 @@ document.addEventListener("DOMContentLoaded", function () {
                     let iEditElement = document.createElement("i");
 
                     divFigureElement.className = "col";
-                    divFigure.className = "card h-100";
+                    divFigure.className = "card h-100 shadow bg-body";
                     imgCardElement.className = "card-img-top";
                     imgCardElement.src = "/uploads/snow_tricks_01.jpg";
                     divCardBodyElement.className = "card-body d-flex justify-content-between";
                     h5CardTitleElement.className = "card-title";
                     aFigurePathElement.innerText = figure.name;
                     aFigurePathElement.href = `get/figure/${figure.id}-${figure.slug}`;
+                    aFigurePathElement.className = "btn btn-outline-primary";
                     divButtonIconElement.className = "button-icon";
                     iDeleteElement.className = "bi bi-trash-fill";
+                    iDeleteElement.style.fontSize = "1.5rem";
                     aDeleteElement.className = "delete";
                     aDeleteElement.href = "delete/" + figure.id;
                     iEditElement.className = "bi bi-pencil-square";
+                    iEditElement.style.fontSize = "1.5rem";
                     aEditElement.className = "edit";
                     aEditElement.href = "update/figure/" + figure.id;
 
