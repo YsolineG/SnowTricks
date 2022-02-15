@@ -59,8 +59,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     let figuresContainer = document.querySelector("#figures-container");
                     figuresContainer.appendChild(divFigureElement);
-
-                    console.log(figuresContainer)
                 }
             });
         });
