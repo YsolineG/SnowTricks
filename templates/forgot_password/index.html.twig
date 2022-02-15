@@ -3,8 +3,8 @@
 {% block title %}Mot de passe oublié{% endblock %}
 
 {% block body %}
-    <div class="custom-container border rounded mx-3 p-5 mb-5 mt-5 mx-md-auto text-center shadow bg-body">
-        <h1 class="text-center mb-5">Mot de passe oublié</h1>
+    <div class="custom-container border rounded mx-3 p-5 mb-5 mt-5 mx-md-auto text-center shadow">
+        <h1 class="text-center mb-5"><i class="bi bi-lock me-4" style="font-size: 2.5rem"></i>Mot de passe oublié</h1>
 
         {% for flashMessage in app.session.flashBag.get('danger') %}
             <div class="mb-3 alert alert-danger text-center mx-auto" role="alert">
@@ -21,7 +21,7 @@
             label: "Nom d'utilisateur"
         }) }}
         <div class="text-center">
-            <button type="submit" class="btn btn-primary">Envoyer</button>
+            <button type="submit" class="btn btn-dark">Envoyer</button>
         </div>
         {{ form_end(usernameForm) }}
     </div>

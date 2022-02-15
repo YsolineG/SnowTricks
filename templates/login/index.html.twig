@@ -3,8 +3,8 @@
 {% block title %}Connexion{% endblock %}
 
 {% block body %}
-    <div class="custom-container border rounded mx-3 p-5 mb-5 mt-5 mx-md-auto text-center shadow bg-body">
-        <h1 class="text-center mb-5">Connexion</h1>
+    <div class="custom-container border rounded mx-3 p-5 mb-5 mt-5 mx-md-auto text-center shadow">
+        <h1 class="text-center mb-5"><i class="bi bi-box-arrow-in-right me-4" style="font-size: 2.5rem"></i>Connexion</h1>
 
         {% if error %}
             <div class="mb-3 alert alert-danger text-center mx-auto" role="alert">
@@ -35,7 +35,7 @@
             <input type="password" class="form-control" id="password" name="_password"/>
 
             <div class="text-center mb-4">
-                <button type="submit" class="btn btn-primary">Connexion</button>
+                <button type="submit" class="btn btn-dark">Connexion</button>
             </div>
             <div class="path-registration text-center mb-3">
                 <a href="{{ path('app_register') }}">Inscription</a>
