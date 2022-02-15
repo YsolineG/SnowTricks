@@ -3,17 +3,18 @@
 {% block title %}{{ figure.name }}{% endblock %}
 
 {% block body %}
-    <div class="custom-container">
-
+    <div class="custom-container border rounded shadow bg-body mt-5 mb-5 mx-md-auto mx-3">
         {% for flashMessage in app.session.flashBag.get('figure-success') %}
-            <div class="mb-3 alert alert-success text-center mx-auto" role="alert">
+            <div class="mb-3 alert alert-success text-center mx-auto mt-3" role="alert">
                 {{ flashMessage }}
             </div>
         {% endfor %}
 
-        <div class="container-photo position-relative mb-3">
+        <div class="container-photo position-relative mb-3 mt-3">
             <img src="{{ figure.getMainPhotoUrl }}" class="img-fluid rounded" alt="snow-tricks">
-            <h1 class="text-photo text-center position-absolute top-50 start-50 translate-middle">{{ figure.name }}</h1>
+            <h1 class="text-photo text-center position-absolute top-50 start-50 translate-middle">
+                {{ figure.name }}
+            </h1>
             {% if app.user and app.user.id == figure.user.id %}
                 <div class="border rounded position-absolute top-0 end-0 bg-white py-1 px-3 mt-2 me-2">
                     <a href="{{ path('delete', {id: figure.id}) }}" class="delete me-2"
@@ -81,7 +82,7 @@
 
         <div class="phone-group-media text-center mt-4">
             <p>
-                <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                <button class="btn btn-dark" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                     Voir médias
                 </button>
@@ -138,11 +139,11 @@
         <div class="text-center mt-5 mb-5">
             <p>{{ figure.description }}</p>
 
-            <span class="badge bg-primary">{{ figure.figureGroup }}</span>
-            <span class="badge bg-primary">Créé le {{ figure.createdAt|date("d/m/Y") }}</span>
-            <span class="badge bg-primary">Par {{ figure.user.username }}</span>
+            <span class="badge bg-dark">{{ figure.figureGroup }}</span>
+            <span class="badge bg-dark">Créé le {{ figure.createdAt|date("d/m/Y") }}</span>
+            <span class="badge bg-dark">Par {{ figure.user.username }}</span>
             {% if figure.updatedAt %}
-                <span class="badge bg-primary">Modifié le {{ figure.updatedAt|date("d/m/Y") }}</span>
+                <span class="badge bg-dark">Modifié le {{ figure.updatedAt|date("d/m/Y") }}</span>
             {% endif %}
         </div>
 
@@ -157,7 +158,7 @@
             {{ form_start(commentForm) }}
             {{ form_row(commentForm.content) }}
             <div class="text-center">
-                <button type="submit" class="btn btn-primary">Ajouter un commentaire</button>
+                <button type="submit" class="btn btn-dark">Ajouter un commentaire</button>
             </div>
             {{ form_end(commentForm) }}
             <hr>
@@ -178,7 +179,7 @@
         </div>
 
         <div class="text-center">
-            <a href="{{ path('api_figure_comments', {id: figure.id}) }}" class="btn btn-primary" role="button"
+            <a href="{{ path('api_figure_comments', {id: figure.id}) }}" class="btn btn-dark mb-3" role="button"
                id="load-more-comments"
             >Commentaires suivants</a>
         </div>
