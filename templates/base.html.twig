@@ -23,27 +23,33 @@
     {% endblock %}
 </head>
 <body data-current-user-id="{{ app.user ? app.user.id : null }}">
-<nav id="main-navigation" role="navigation" class="bg-white border-bottom">
-    <ul class="nav justify-content-end p-4">
-        <li class="nav-item">
-            <a class="navbar-brand" aria-current="page" href="{{ path('home') }}">Accueil</a>
-        </li>
-        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+<nav id="main-navigation" role="navigation" class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ path('home') }}">
+            <img src="{{ asset("/uploads/logo-white.png") }}" width="40" />
+            SnowTricks
+        </a>
+        <ul class="navbar-nav p-4">
             <li class="nav-item">
-                <a class="navbar-brand" href="{{ path('app_logout') }}">Déconnexion</a>
+                <a class="nav-link fs-5" aria-current="page" href="{{ path('home') }}">Accueil</a>
             </li>
-            <li class="nav-item">
-                <a class="navbar-brand" href="{{ path('add_figure') }}">Nouveau Tricks</a>
-            </li>
-        {% else %}
-            <li class="nav-item">
-                <a class="navbar-brand" href="{{ path('login') }}">Connexion</a>
-            </li>
-            <li class="nav-item">
-                <a class="navbar-brand" href="{{ path('app_register') }}">Inscription</a>
-            </li>
-        {% endif %}
-    </ul>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <li class="nav-item">
+                    <a class="nav-link fs-5" href="{{ path('app_logout') }}">Déconnexion</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fs-5" href="{{ path('add_figure') }}">Nouvelle figure</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link fs-5" href="{{ path('login') }}">Connexion</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fs-5" href="{{ path('app_register') }}">Inscription</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
 </nav>
 
 <nav id="nav-phone" class="position-fixed bg-white justify-content-around w-100 p-2 bottom-0 sm">
