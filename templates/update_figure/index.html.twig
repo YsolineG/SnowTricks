@@ -3,10 +3,10 @@
 {% block title %}Modifier{% endblock %}
 
 {% block body %}
-    <div class="custom-container">
-        <div class="container-photo position-relative mb-3">
+    <div class="custom-container border rounded shadow bg-body mt-5 mb-5 mx-md-auto mx-3">
+
+        <div class="container-photo position-relative mb-3 mt-3">
             <img src="{{ figure.getMainPhotoUrl }}" class="img-fluid rounded" alt="snow-tricks">
-            <h1 class="text-photo position-absolute top-50 start-50 translate-middle text-center">{{ figure.name }}</h1>
             {% if figure.photos|length > 0 %}
                 <div class="border rounded position-absolute top-0 end-0 bg-white py-1 px-3 mt-2 me-2">
                     <a href="{{ path('delete_photo', {id: figure.photos[0].id}) }}"
@@ -20,135 +20,77 @@
             {% endif %}
         </div>
 
-        <div class="main-group-media-figure row">
-            <div class="col">
-                <div id="carouselPhotos" class="carousel slide rounded overflow-hidden"
-                     data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        {% for photo in figure.photos %}
-                            {% if not loop.first %}
-                                <div class="carousel-item {% if loop.index == 2 %}active{% endif %} position-relative">
-                                    <img src="{{ asset('/uploads/' ~ photo.name) }}"
-                                         class="d-block w-100 object-fit-cover" style="height: 250px;">
-                                </div>
+        <div class="container mt-3 d-none d-md-block">
+            <div class="row">
+                {% for photo in figure.photos %}
+                    {% if not loop.first %}
+                        <div class="col-4 mb-3">
+                            <div class="position-relative rounded overflow-hidden" style="height: 150px;">
+                                <img src="{{ asset('/uploads/' ~ photo.name) }}" alt="Photo"
+                                     class="object-fit-cover w-100 h-100">
                                 <div class="border rounded position-absolute top-0 end-0 bg-white py-1 px-2 mt-2 me-2">
                                     <a href="{{ path('delete_photo', {id: photo.id}) }}" data-delete-photo
                                        data-token="{{ csrf_token('delete' ~ photo.id) }}">
-                                        <i class="bi bi-trash-fill" style="font-size: 1rem;"></i>
+                                        <i class="bi bi-trash-fill"></i>
                                     </a>
                                 </div>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselPhotos"
-                            data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselPhotos"
-                            data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
-                </div>
-            </div>
-            <div class="col">
-                <div id="carouselVideos" class="carousel slide rounded overflow-hidden"
-                     data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        {% for video in figure.videos %}
-                            <div class="carousel-item {% if loop.index == 1 %}active{% endif %} position-relative">
-                                <iframe src="{{ video.url }}" title="YouTube video player"
-                                        frameborder="0"
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                        allowfullscreen class="d-block w-100" style="height: 250px;"></iframe>
-                                <div class="border rounded position-absolute top-0 end-0 bg-white py-1 px-2 mt-2 me-2">
-                                    <a href="{{ path('delete_video', {id: video.id}) }}" data-delete
-                                       data-token="{{ csrf_token('delete' ~ video.id) }}"><i class="bi bi-trash-fill"
-                                                                                             style="font-size: 1rem;"></i></a>
-                                </div>
                             </div>
-                        {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                {% for video in figure.videos %}
+                    <div class="col-4 mb-3">
+                        <div class="position-relative rounded overflow-hidden" style="height: 150px;">
+                            <iframe src="{{ video.url }}" title="YouTube video player"
+                                    frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen class="w-100 h-100"></iframe>
+                            <div class="border rounded position-absolute top-0 end-0 bg-white py-1 px-2 mt-2 me-2">
+                                <a href="{{ path('delete_video', {id: video.id}) }}" data-delete
+                                   data-token="{{ csrf_token('delete' ~ video.id) }}"><i class="bi bi-trash-fill"
+                                                                                         style="font-size: 1rem;"></i></a>
+                            </div>
+                        </div>
                     </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselVideos"
-                            data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselVideos"
-                            data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
-                </div>
+                {% endfor %}
             </div>
         </div>
 
         <div class="phone-group-media text-center mt-4">
             <p>
-                <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                <button class="btn btn-dark" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                     Voir médias
                 </button>
             </p>
             <div class="collapse" id="collapseExample">
-                <div id="carouselPhotos" class="carousel slide rounded overflow-hidden"
-                     data-bs-ride="carousel">
-                    <div class="carousel-inner mb-2">
-                        {% for photo in figure.photos %}
-                            {% if not loop.first %}
-                                <div class="carousel-item {% if loop.index == 2 %}active{% endif %} position-relative">
-                                    <img src="{{ asset('/uploads/' ~ photo.name) }}"
-                                         class="d-block w-100 object-fit-cover" style="height: 250px;">
-                                </div>
-                                <div class="border rounded position-absolute top-0 end-0 bg-white py-1 px-2 mt-2 me-2">
-                                    <a href="{{ path('delete_photo', {id: photo.id}) }}" data-delete-photo
-                                       data-token="{{ csrf_token('delete' ~ photo.id) }}">
-                                        <i class="bi bi-trash-fill" style="font-size: 1rem;"></i>
-                                    </a>
-                                </div>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselPhotos"
-                            data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselPhotos"
-                            data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
-                </div>
-                <div id="carouselVideos" class="carousel slide rounded overflow-hidden"
-                     data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        {% for video in figure.videos %}
-                            <div class="carousel-item {% if loop.index == 1 %}active{% endif %} position-relative">
-                                <iframe src="{{ video.url }}" title="YouTube video player"
-                                        frameborder="0"
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                        allowfullscreen class="d-block w-100" style="height: 250px;"></iframe>
-                                <div class="border rounded position-absolute top-0 end-0 bg-white py-1 px-2 mt-2 me-2">
-                                    <a href="{{ path('delete_video', {id: video.id}) }}" data-delete
-                                       data-token="{{ csrf_token('delete' ~ video.id) }}"><i class="bi bi-trash-fill"
-                                                                                             style="font-size: 1rem;"></i></a>
-                                </div>
+                {% for photo in figure.photos %}
+                    {% if not loop.first %}
+                        <div class="position-relative mb-2">
+                            <img src="{{ asset('/uploads/' ~ photo.name) }}" alt="Photo"
+                                 class="rounded w-100 object-fit-cover" style="height: 250px">
+                            <div class="border rounded position-absolute top-0 end-0 bg-white py-1 px-2 mt-2 me-2">
+                                <a href="{{ path('delete_photo', {id: photo.id}) }}" data-delete-photo
+                                   data-token="{{ csrf_token('delete' ~ photo.id) }}">
+                                    <i class="bi bi-trash-fill"></i>
+                                </a>
                             </div>
-                        {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                {% for video in figure.videos %}
+                    <div class="position-relative mb-2">
+                        <iframe src="{{ video.url }}" title="YouTube video player"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen class="w-100 rounded" style="height: 250px;"></iframe>
+                        <div class="border rounded position-absolute top-0 end-0 bg-white py-1 px-2 mt-2 me-2">
+                            <a href="{{ path('delete_video', {id: video.id}) }}" data-delete
+                               data-token="{{ csrf_token('delete' ~ video.id) }}"><i class="bi bi-trash-fill"
+                                                                                     style="font-size: 1rem;"></i></a>
+                        </div>
                     </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselVideos"
-                            data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselVideos"
-                            data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
-                </div>
+                {% endfor %}
             </div>
         </div>
 
@@ -178,12 +120,12 @@
                     </li>
                 {% endfor %}
             </ul>
-            <button type="button" id="button-add-video" class="btn btn-primary"
+            <button type="button" id="button-add-video" class="btn btn-dark"
                     data-template="{{ form_widget(figureForm.videos.vars.prototype)|e }}">Ajouter une vidéo
             </button>
 
             <div class="group-button d-flex justify-content-center justify-content-md-end mt-5">
-                <button type="submit" class="btn btn-primary me-2">Sauvegarder</button>
+                <button type="submit" class="btn btn-dark me-2">Sauvegarder</button>
                 <a href="{{ path('delete', {id: figure.id}) }}" class="btn btn-danger"
                    onclick="return confirm('Etes vous sure de vouloir supprimer cette figure ?')">Supprimer la
                     figure</a>
