@@ -25,13 +25,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     divFigureElement.className = "col";
                     divFigure.className = "card h-100 shadow bg-body";
-                    imgCardElement.className = "card-img-top";
-                    imgCardElement.src = "/uploads/snow_tricks_01.jpg";
+                    imgCardElement.className = "card-img-top object-fit-cover";
+                    imgCardElement.style.height = "200px";
+                    imgCardElement.src = figure.mainPhotoUrl;
                     divCardBodyElement.className = "card-body d-flex justify-content-between";
                     h5CardTitleElement.className = "card-title";
                     aFigurePathElement.innerText = figure.name;
                     aFigurePathElement.href = `get/figure/${figure.id}-${figure.slug}`;
-                    aFigurePathElement.className = "btn btn-outline-primary";
+                    aFigurePathElement.className = "btn btn-outline-dark";
                     divButtonIconElement.className = "button-icon";
                     iDeleteElement.className = "bi bi-trash-fill";
                     iDeleteElement.style.fontSize = "1.5rem";
@@ -58,6 +59,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     let figuresContainer = document.querySelector("#figures-container");
                     figuresContainer.appendChild(divFigureElement);
+
+                    console.log(figuresContainer)
                 }
             });
         });
