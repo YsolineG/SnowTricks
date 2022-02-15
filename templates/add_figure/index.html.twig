@@ -3,9 +3,9 @@
 {% block title %}Ajouter une figure{% endblock %}
 
 {% block body %}
-    <h1 class="text-center mb-5 mt-5"><i class="bi bi-plus-circle-fill me-4" style="font-size: 2.5rem"></i>Ajouter une figure</h1>
 
-    <div class="custom-container">
+    <div class="custom-container border rounded shadow bg-body mx-md-auto mx-3 mt-5 mb-5">
+        <h1 class="text-center mb-5 mt-5"><i class="bi bi-plus-circle me-4" style="font-size: 2.5rem"></i>Ajouter une figure</h1>
         {{ form_start(figureForm) }}
         {{ form_row(figureForm.name, {
             label: "Nom"
@@ -31,12 +31,12 @@
                 </li>
             {% endfor %}
         </ul>
-        <button type="button" id="button-add-video" class="btn btn-primary"
+        <button type="button" id="button-add-video" class="btn btn-dark"
                 data-template="{{ form_widget(figureForm.videos.vars.prototype)|e }}">Ajouter une vidéo
         </button>
 
         <div class="text-center mt-5">
-            <button type="submit" class="btn btn-primary">Sauvegarder</button>
+            <button type="submit" class="btn btn-dark">Sauvegarder</button>
         </div>
         {{ form_end(figureForm) }}
     </div>
